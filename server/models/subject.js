@@ -24,7 +24,7 @@ const subjectSchema = new Schema({
   },
   attendence: {
     type: Schema.Types.ObjectId,
-    ref: "attendence",
+    ref: "attendance",
   },
 });
 
