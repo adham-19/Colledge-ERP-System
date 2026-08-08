@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const testSchema = mongoose.Schema({
+const testSchema = new mongoose.Schema({
   test: {
     type: String,
     required: true,
@@ -19,7 +19,7 @@ const testSchema = mongoose.Schema({
     default: 10,
   },
   year: {
-    type: String,
+    type: Number,
     required: true,
   },
   section: {
@@ -27,7 +27,7 @@ const testSchema = mongoose.Schema({
     required: true,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
 });

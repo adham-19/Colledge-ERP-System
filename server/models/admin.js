@@ -26,15 +26,15 @@ const adminSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    userName: {
+    username: {
       type: String,
     },
-    // TODO: Convert to Ref
-    department: {
-      type: String,
+    departmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "department",
       required: true,
     },
-    dateOfBirth: {
+    dob: {
       type: Date,
     },
     joiningYear: {

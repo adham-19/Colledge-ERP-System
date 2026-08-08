@@ -19,12 +19,8 @@ const subjectSchema = new Schema({
     default: 10,
   },
   year: {
-    type: String,
+    type: Number,
     required: true,
-  },
-  attendance: {
-    type: Schema.Types.ObjectId,
-    ref: "attendance",
   },
 });
 

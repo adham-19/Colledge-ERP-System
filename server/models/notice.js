@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const noticeSchema = mongoose.Schema({
+const noticeSchema = new mongoose.Schema({
   topic: {
     type: String,
     required: true,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
   content: {
