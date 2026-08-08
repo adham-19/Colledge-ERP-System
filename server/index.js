@@ -5,6 +5,11 @@ const dotenv = require("dotenv");
 const app = express();
 dotenv.config();
 
+app.use(express.json());
+
+const adminRouter = require("./routes/admin");
+app.use("/admin", adminRouter);
+
 app.use(function (req, res) {
   res.status(404).json("Page Not Found");
 });

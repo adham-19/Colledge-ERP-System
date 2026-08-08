@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
-const adminSchema = mongoose.Schema(
+const adminSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -25,11 +26,13 @@ const adminSchema = mongoose.Schema(
       required: true,
       select: false,
     },
-    username: {
+    userName: {
       type: String,
     },
+    // TODO: Convert to Ref
     department: {
       type: String,
+      required: true,
     },
     dateOfBirth: {
       type: Date,
@@ -53,6 +56,15 @@ const adminSchema = mongoose.Schema(
     timestamps: true,
   },
 );
+
+adminSchema.pre("save", async function () {
+  if (!this.isModified("password")) {
+    return;
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 const adminModel = mongoose.model("admin", adminSchema);
 module.exports = adminModel;
