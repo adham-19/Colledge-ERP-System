@@ -74,7 +74,9 @@ const addAdmin = async (req, res) => {
     }
 
     let departmentHelper = existingDepartment.departmentCode;
-    const admins = await adminModel.find({ department });
+    const admins = await adminModel.find({
+      departmentId: existingDepartment._id,
+    });
 
     let helper;
     if (admins.length < 10) {
