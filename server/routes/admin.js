@@ -1,32 +1,27 @@
-const express = require("express");
-const auth = require("../auth/auth");
-const {
+import express from "express";
+import auth from "../auth/auth.js";
+import {
   loginAdmin,
   getAllAdmins,
   addAdmin,
   updateAdmin,
   deleteAdmin,
   changePassword,
-
   createNotice,
   getAllNotices,
-
   addDepartment,
   getAllDepartments,
   deleteDepartment,
-
   addFaculty,
   getAllFaculties,
   deleteFaculty,
-
   addSubject,
   getAllSubjects,
   deleteSubject,
-
   addStudent,
   getAllStudents,
   deleteStudent,
-} = require("../controllers/admin");
+} from "../controllers/admin.js";
 const router = express.Router();
 
 router.post("/login", loginAdmin);
@@ -56,4 +51,4 @@ router.post("/student/", addStudent);
 router.get("/student/", getAllStudents);
 router.delete("/student/:id", deleteStudent);
 
-module.exports = router;
+export default router;

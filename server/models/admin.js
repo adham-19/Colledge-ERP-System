@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const adminSchema = new mongoose.Schema(
   {
@@ -66,5 +66,4 @@ adminSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-const adminModel = mongoose.model("admin", adminSchema);
-module.exports = adminModel;
+export default mongoose.model("admin", adminSchema);

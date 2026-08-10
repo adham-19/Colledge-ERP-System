@@ -1,13 +1,13 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 const app = express();
 dotenv.config();
 
 app.use(express.json());
 
-const adminRouter = require("./routes/admin");
+import adminRouter from "./routes/admin.js";
 app.use("/admin", adminRouter);
 
 app.use(function (req, res) {

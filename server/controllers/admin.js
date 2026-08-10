@@ -1,12 +1,12 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const adminModel = require("../models/admin");
-const departmentModel = require("../models/department");
-const noticeModel = require("../models/notice");
-const fucultyModel = require("../models/faculty");
-const subjectModel = require("../models/subject");
-const studentModel = require("../models/student");
+import adminModel from "../models/admin.js";
+import departmentModel from "../models/department.js";
+import noticeModel from "../models/notice.js";
+import fucultyModel from "../models/faculty.js";
+import subjectModel from "../models/subject.js";
+import studentModel from "../models/student.js";
 
 const defaultAdminPassword = "Admin12349876";
 const defaultFacultyPassword = "Faculty12349876";
@@ -706,29 +706,24 @@ const deleteStudent = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   loginAdmin,
   getAllAdmins,
   addAdmin,
   updateAdmin,
   deleteAdmin,
   changePassword,
-
   createNotice,
   getAllNotices,
-
   addDepartment,
   getAllDepartments,
   deleteDepartment,
-
   addFaculty,
   getAllFaculties,
   deleteFaculty,
-
   addSubject,
   getAllSubjects,
   deleteSubject,
-
   addStudent,
   getAllStudents,
   deleteStudent,
