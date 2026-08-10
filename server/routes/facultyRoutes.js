@@ -1,12 +1,22 @@
-import express from "express"
-import {loginFaculty,updatepassword,updateFaculty,createTest,getTest,getStudent,uploadMarks,markAttendance}from "../controllers/facultyController";
-import auth from "../middleware/auth"
+import express from "express";
+import {
+  loginFaculty,
+  updatepassword,
+  updateFaculty,
+  createTest,
+  getTest,
+  getStudent,
+  uploadMarks,
+  markAttendance,
+} from "../controllers/facultyController";
+import auth from "../middleware/auth";
+import io from "../index.js";
 const router = express.Router();
 router.post("/login", loginFaculty);
-router.post("/updatepassword",auth,  updatepassword);
+router.post("/updatepassword", auth, updatepassword);
 router.post("/updateprofile", auth, updateFaculty);
 
-router.post("/createtest", auth, createTest);
+router.post("/createtest", auth, (req, res) => createTest(req, res, io));
 router.post("/gettest", auth, getTest);
 router.post("/getstudent", auth, getStudent);
 router.post("/uploadmarks", auth, uploadMarks);
