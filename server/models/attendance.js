@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-const attendenceSchema = new Schema({
+const attendanceSchema = new Schema({
   student: {
     type: Schema.Types.ObjectId,
     ref: "student",
@@ -19,4 +19,4 @@ const attendenceSchema = new Schema({
   },
 });
 
-export default mongoose.model("attendance", attendenceSchema);
+export default mongoose.model("attendance", attendanceSchema);

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
-const subjectSchema = new Schema({
-  subjectName: {
+
+const testSchema = new mongoose.Schema({
+  test: {
     type: String,
     required: true,
     trim: true,
@@ -14,7 +14,7 @@ const subjectSchema = new Schema({
     type: String,
     required: true,
   },
-  totalLectures: {
+  totalMarks: {
     type: Number,
     default: 10,
   },
@@ -22,6 +22,14 @@ const subjectSchema = new Schema({
     type: Number,
     required: true,
   },
+  section: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
 });
 
-export default mongoose.model("subject", subjectSchema);
+export default mongoose.model("test", testSchema);

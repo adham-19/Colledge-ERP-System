@@ -51,13 +51,13 @@ const studentSchema = new Schema({
     type: String,
   },
   contactNumber: {
-    type: Number,
+    type: String,
   },
   fatherContactNumber: {
-    type: Number,
+    type: String,
   },
   dob: {
-    type: String,
+    type: Date,
     required: true,
   },
   passwordUpdated: {

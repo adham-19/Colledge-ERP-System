@@ -1,0 +1,14 @@
+Admin Model                  <- Done
+Login                        <- 
+JWT Authentiction            <- 
+Authorization (Roles)        <- 
+Change Password              <- 
+Middleware (auth & role)     <- 
+
+// models
+Admin 
+// APIs
+Post /auth/Login
+GET /Profile
+PUT /Profile
+PUT /change-password

@@ -1,9 +1,22 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
+
+app.use(express.json());
+
+app.use(
+  cors({
+    origin: "*",
+    methods: "*",
+  }),
+);
+
+import adminRouter from "./routes/admin.js";
+app.use("/admin", adminRouter);
 
 app.use(function (req, res) {
   res.status(404).json("Page Not Found");
