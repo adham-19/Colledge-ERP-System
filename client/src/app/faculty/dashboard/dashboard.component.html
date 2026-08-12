@@ -1,0 +1,70 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-house"></i>
+  <span>Dashboard</span>
+</div>
+
+<div *ngIf="loading" class="ledger-status" style="margin-bottom: 1rem;">
+  <span class="dot"></span> Loading
+</div>
+
+<div class="stat-row">
+  <div class="stat-tile">
+    <i class="bi bi-easel stat-tile__icon"></i>
+    <div><h1>Class</h1><h2>{{classesCount}}</h2></div>
+  </div>
+  <div class="stat-tile">
+    <i class="bi bi-mortarboard stat-tile__icon"></i>
+    <div><h1>Student</h1><h2>{{studentsCount}}</h2></div>
+  </div>
+  <div class="stat-tile">
+    <i class="bi bi-journal-bookmark stat-tile__icon"></i>
+    <div><h1>Subject</h1><h2>{{subjectsCount}}</h2></div>
+  </div>
+  <div class="stat-tile stat-tile--last">
+    <i class="bi bi-clipboard-check stat-tile__icon"></i>
+    <div><h1>Test</h1><h2>{{testsCount}}</h2></div>
+  </div>
+</div>
+
+<div class="dash-row">
+  <div class="ledger-panel calendar-panel">
+    <h3>{{ monthLabel }}</h3>
+    <div class="calendar-grid">
+      <span class="calendar-grid__wd" *ngFor="let wd of weekDays">{{ wd }}</span>
+      <ng-container *ngFor="let week of calendarWeeks">
+        <span
+          *ngFor="let day of week"
+          class="calendar-grid__day"
+          [class.is-empty]="!day"
+          [class.is-today]="day?.isToday">
+          {{ day?.date }}
+        </span>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="ledger-panel notice-panel">
+    <div class="notice-panel__head">
+      <i *ngIf="selectedNotice" class="bi bi-arrow-90deg-left" (click)="closeNotice()"></i>
+      <h3>Notices</h3>
+    </div>
+
+    <div class="notice-panel__body" *ngIf="!selectedNotice">
+      <p *ngIf="notices.length === 0" class="notice-empty">No notices yet.</p>
+      <div class="notice-row" *ngFor="let notice of notices" (click)="openNotice(notice)">
+        <span class="notice-row__dot"></span>
+        <span class="notice-row__topic">{{ notice.topic }}</span>
+        <span class="notice-row__content">{{ notice.content }}</span>
+      </div>
+    </div>
+
+    <div class="notice-detail" *ngIf="selectedNotice">
+      <div class="notice-detail__meta">
+        <span><strong>From:</strong> {{ selectedNotice.from }}</span>
+        <span>{{ selectedNotice.date }}</span>
+      </div>
+      <h4>{{ selectedNotice.topic }}</h4>
+      <p>{{ selectedNotice.content }}</p>
+    </div>
+  </div>
+</div>

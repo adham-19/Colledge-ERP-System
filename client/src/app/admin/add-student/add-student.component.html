@@ -1,0 +1,137 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-mortarboard"></i>
+  <span>Add Student</span>
+</div>
+
+<form class="ledger-panel ledger-form" (ngSubmit)="submit()" #f="ngForm">
+  <div class="ledger-grid">
+    <div>
+      <div class="ledger-field">
+        <label>Name</label>
+        <input
+          type="text"
+          required
+          placeholder="Full Name"
+          [(ngModel)]="value.name"
+          name="name"
+        />
+      </div>
+      <div class="ledger-field">
+        <label>DOB</label>
+        <input type="date" required [(ngModel)]="value.dob" name="dob" />
+      </div>
+      <div class="ledger-field">
+        <label>Email</label>
+        <input
+          type="email"
+          required
+          placeholder="Email"
+          [(ngModel)]="value.email"
+          name="email"
+        />
+      </div>
+      <div class="ledger-field">
+        <label>Gender</label>
+        <select required [(ngModel)]="value.gender" name="gender">
+          <option value="">None</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Department</label>
+        <select required [(ngModel)]="value.department" name="department">
+          <option value="">None</option>
+          <option *ngFor="let dp of departments" [value]="dp.department">
+            {{ dp.department }}
+          </option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Year</label>
+        <select required [(ngModel)]="value.year" name="year">
+          <option value="">None</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </select>
+      </div>
+    </div>
+
+    <div>
+      <div class="ledger-field">
+        <label>Section</label>
+        <select required [(ngModel)]="value.section" name="section">
+          <option value="">None</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Batch</label>
+        <input
+          type="text"
+          placeholder="e.g. 2023-2027"
+          [(ngModel)]="value.batch"
+          name="batch"
+        />
+      </div>
+      <div class="ledger-field">
+        <label>Contact Number</label>
+        <input
+          type="number"
+          placeholder="Contact Number"
+          [(ngModel)]="value.contactNumber"
+          name="contactNumber"
+        />
+      </div>
+      <div class="ledger-field">
+        <label>Father's Name</label>
+        <input
+          type="text"
+          placeholder="Father's Name"
+          [(ngModel)]="value.fatherName"
+          name="fatherName"
+        />
+      </div>
+      <div class="ledger-field">
+        <label>Mother's Name</label>
+        <input
+          type="text"
+          placeholder="Mother's Name"
+          [(ngModel)]="value.motherName"
+          name="motherName"
+        />
+      </div>
+      <div class="ledger-field">
+        <label>Father's Contact</label>
+        <input
+          type="number"
+          placeholder="Father's Contact Number"
+          [(ngModel)]="value.fatherContactNumber"
+          name="fatherContactNumber"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="ledger-actions">
+    <button
+      type="submit"
+      class="btn-ledger-primary"
+      [disabled]="!f.form.valid || loading"
+    >
+      Submit
+    </button>
+    <button type="button" class="btn-ledger-secondary" (click)="clear()">
+      Clear
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="ledger-status">
+    <span class="dot"></span> Adding Student
+  </div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+</form>

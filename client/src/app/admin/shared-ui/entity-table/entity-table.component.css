@@ -1,0 +1,45 @@
+.etable-wrap {
+  width: 100%;
+}
+
+.etable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.etable thead th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(13, 20, 32, 0.5);
+  padding: 0.5rem 0.6rem;
+  border-bottom: 2px solid rgba(13, 20, 32, 0.12);
+}
+
+.etable tbody td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid rgba(13, 20, 32, 0.08);
+  color: var(--ink-900);
+}
+
+.etable tbody tr:hover {
+  background: rgba(201, 162, 39, 0.06);
+}
+
+.etable__select-col {
+  width: 2.2rem;
+}
+
+.etable__actions {
+  margin-top: 1rem;
+}
+
+.etable__empty {
+  text-align: center;
+  color: rgba(13, 20, 32, 0.4);
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}

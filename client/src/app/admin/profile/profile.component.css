@@ -1,0 +1,48 @@
+@import '../shared/admin.css';
+
+.profile-card {
+  position: relative;
+  padding: 2.5rem 2.5rem 2rem;
+}
+
+.profile-card__avatar {
+  position: absolute;
+  top: -1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--brass);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px -6px rgba(201, 162, 39, 0.6);
+}
+
+.profile-card__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem 3rem;
+  margin-top: 1.5rem;
+}
+
+.profile-field span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(13, 20, 32, 0.45);
+  margin-bottom: 0.25rem;
+}
+
+.profile-field strong {
+  font-size: 1rem;
+  color: var(--ink-900);
+  font-weight: 500;
+}

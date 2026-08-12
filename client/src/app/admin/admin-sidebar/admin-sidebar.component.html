@@ -1,0 +1,21 @@
+<aside class="admin-sidebar">
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section" *ngFor="let section of sections">
+      <ng-container *ngFor="let link of section.links">
+        <a
+          *ngIf="link.path"
+          [routerLink]="link.path"
+          routerLinkActive="is-active"
+          class="admin-sidebar__link">
+          <i class="bi" [ngClass]="link.icon"></i>
+          <span>{{ link.label }}</span>
+        </a>
+        <span *ngIf="!link.path" class="admin-sidebar__link admin-sidebar__link--soon">
+          <i class="bi" [ngClass]="link.icon"></i>
+          <span>{{ link.label }}</span>
+          <em>soon</em>
+        </span>
+      </ng-container>
+    </div>
+  </nav>
+</aside>

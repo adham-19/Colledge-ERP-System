@@ -1,0 +1,61 @@
+<div class="card-scene grain-bg">
+  <a routerLink="/" class="back-link">&larr; back to campus gate</a>
+
+  <div class="admit-card">
+    <div class="admit-card__stripe"></div>
+
+    <div class="admit-card__header">
+      <div>
+        <span class="admit-card__eyebrow">ABC Institute &middot; Access Card</span>
+        <div class="admit-card__role">Faculty</div>
+      </div>
+      <div class="admit-card__seal">F</div>
+    </div>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm" class="admit-card__body">
+      <div class="field-group">
+        <label class="field-label">Username</label>
+        <input
+          type="text"
+          name="username"
+          required
+          class="field-input"
+          placeholder="e.g. prof.iyer"
+          [(ngModel)]="username" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Password</label>
+        <div class="field-with-icon">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            required
+            class="field-input"
+            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+            [(ngModel)]="password" />
+          <span class="eye-toggle" (click)="togglePassword()">
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.form.valid || loading" class="admit-submit">
+        Enter Faculty Portal
+      </button>
+
+      <div *ngIf="loading" class="admit-status">
+        <span class="dot"></span> Verifying credentials
+      </div>
+
+      <p *ngIf="errors.usernameError || errors.passwordError" class="admit-error">
+        {{ errors.usernameError || errors.passwordError }}
+      </p>
+    </form>
+
+    <div class="admit-card__footer">
+      <span>ROLE&nbsp;·&nbsp;FACULTY</span>
+      <span>VALID THIS SESSION</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-megaphone"></i>
+  <span>Create Notice</span>
+</div>
+
+<form class="ledger-panel ledger-form" (ngSubmit)="submit()" #f="ngForm">
+  <div class="ledger-grid">
+    <div>
+      <div class="ledger-field">
+        <label>Date</label>
+        <input type="date" required [(ngModel)]="value.date" name="date" />
+      </div>
+      <div class="ledger-field">
+        <label>Topic</label>
+        <input type="text" required placeholder="Topic" [(ngModel)]="value.topic" name="topic" />
+      </div>
+      <div class="ledger-field">
+        <label>To</label>
+        <select required [(ngModel)]="value.noticeFor" name="noticeFor">
+          <option value="">None</option>
+          <option value="all">All</option>
+          <option value="faculty">Faculty</option>
+          <option value="student">Student</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>From</label>
+        <input type="text" required placeholder="From" [(ngModel)]="value.from" name="from" />
+      </div>
+    </div>
+
+    <div>
+      <div class="ledger-field">
+        <label>Content</label>
+        <textarea required placeholder="Content...." [(ngModel)]="value.content" name="content"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="ledger-actions">
+    <button type="submit" class="btn-ledger-primary" [disabled]="!f.form.valid || loading">Submit</button>
+    <button type="button" class="btn-ledger-secondary" (click)="clear()">Clear</button>
+  </div>
+
+  <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Creating Notice</div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+</form>

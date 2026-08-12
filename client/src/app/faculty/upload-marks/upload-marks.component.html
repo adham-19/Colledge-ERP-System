@@ -1,0 +1,73 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-clipboard-check"></i>
+  <span>Upload Marks</span>
+</div>
+
+<div class="ledger-panel search-delete-layout">
+  <form class="search-col" (ngSubmit)="onSearch()" #f="ngForm">
+    <div class="ledger-field">
+      <label>Year</label>
+      <select required [(ngModel)]="value.year" name="year" (ngModelChange)="onYearOrSectionChange()">
+        <option value="">None</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>Section</label>
+      <select required [(ngModel)]="value.section" name="section" (ngModelChange)="onYearOrSectionChange()">
+        <option value="">None</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>Test</label>
+      <select required [(ngModel)]="value.test" name="test">
+        <option value="">None</option>
+        <option *ngFor="let t of tests" [value]="t.test">{{ t.test }}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-ledger-primary">Search</button>
+  </form>
+
+  <div class="results-col">
+    <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Loading</div>
+    <p *ngIf="error" class="ledger-error">{{ error }}</p>
+
+    <div class="etable-wrap" *ngIf="search && !loading && !error && students.length > 0">
+      <table class="etable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Section</th>
+            <th>Marks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stu of students; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ stu.name }}</td>
+            <td>{{ stu.username }}</td>
+            <td>{{ stu.section }}</td>
+            <td>
+              <input
+                type="text"
+                class="marks-input"
+                (change)="onMarkChange(stu._id, $any($event.target).value)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mark-action-row">
+        <button type="button" class="btn-ledger-primary" (click)="uploadMarks()">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>

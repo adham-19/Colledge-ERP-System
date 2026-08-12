@@ -1,0 +1,54 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-person-plus"></i>
+  <span>Add Admin</span>
+</div>
+
+<form class="ledger-panel ledger-form" (ngSubmit)="submit()" #f="ngForm">
+  <div class="ledger-grid">
+    <div>
+      <div class="ledger-field">
+        <label>Name</label>
+        <input type="text" required placeholder="Full Name" [(ngModel)]="value.name" name="name" />
+      </div>
+      <div class="ledger-field">
+        <label>DOB</label>
+        <input type="date" required [(ngModel)]="value.dob" name="dob" />
+      </div>
+      <div class="ledger-field">
+        <label>Email</label>
+        <input type="email" required placeholder="Email" [(ngModel)]="value.email" name="email" />
+      </div>
+    </div>
+
+    <div>
+      <div class="ledger-field">
+        <label>Department</label>
+        <select required [(ngModel)]="value.department" name="department">
+          <option value="">None</option>
+          <option *ngFor="let dp of departments" [value]="dp.department">{{ dp.department }}</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Contact Number</label>
+        <input
+          type="number"
+          required
+          placeholder="Contact Number"
+          [(ngModel)]="value.contactNumber"
+          name="contactNumber" />
+      </div>
+      <div class="ledger-field">
+        <label>Avatar</label>
+        <input type="file" (change)="onAvatarChange($event)" accept="image/*" />
+      </div>
+    </div>
+  </div>
+
+  <div class="ledger-actions">
+    <button type="submit" class="btn-ledger-primary" [disabled]="!f.form.valid || loading">Submit</button>
+    <button type="button" class="btn-ledger-secondary" (click)="clear()">Clear</button>
+  </div>
+
+  <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Adding Admin</div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+</form>

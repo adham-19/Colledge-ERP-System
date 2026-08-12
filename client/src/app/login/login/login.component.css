@@ -1,0 +1,149 @@
+.gate {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.gate__crest {
+  margin-bottom: 0.9rem;
+  animation: crest-in 0.7s ease both;
+}
+
+@keyframes crest-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.gate__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+.gate__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  margin: 0.5rem 0 0.4rem;
+  color: var(--parchment);
+}
+
+.gate__subtitle {
+  font-family: var(--font-body);
+  color: var(--parchment-dim);
+  font-size: 0.95rem;
+  margin-bottom: 3.2rem;
+}
+
+.gate__desk {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2.75rem;
+}
+
+.desk-card {
+  --tilt: 0deg;
+  position: relative;
+  width: 16rem;
+  padding: 1.9rem 1.6rem 1.6rem;
+  background: var(--parchment);
+  color: var(--ink-900);
+  border-radius: 0.55rem;
+  text-decoration: none;
+  box-shadow: 0 22px 45px -18px rgba(0, 0, 0, 0.6);
+  transform: rotate(var(--tilt));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  overflow: hidden;
+}
+
+.desk-card--faculty {
+  --tilt: -4deg;
+  --card-role: var(--role-faculty);
+}
+
+.desk-card--student {
+  --tilt: 4deg;
+  --card-role: var(--role-student);
+}
+
+.desk-card:hover,
+.desk-card:focus-visible {
+  transform: rotate(0deg) translateY(-8px);
+  box-shadow: 0 30px 60px -16px rgba(0, 0, 0, 0.7);
+}
+
+.desk-card__stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.6rem;
+  background: var(--card-role);
+}
+
+.desk-card__seal {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: var(--card-role);
+  color: var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0.6rem 0 1rem;
+}
+
+.desk-card__role {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.desk-card__hint {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: rgba(13, 20, 32, 0.6);
+  text-align: left;
+  margin-top: 0.3rem;
+}
+
+.desk-card__cta {
+  display: block;
+  text-align: left;
+  margin-top: 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--card-role);
+}
+
+.gate__admin-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--parchment-dim);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--hairline);
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.gate__admin-link:hover {
+  color: var(--brass);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate__crest { animation: none; }
+  .desk-card { transition: none; }
+}

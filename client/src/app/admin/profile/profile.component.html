@@ -1,0 +1,42 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-person-badge"></i>
+  <span>Profile</span>
+  <a routerLink="/admin/update" class="action-link">
+    <i class="bi bi-pencil-square"></i> Update
+  </a>
+</div>
+
+<div class="ledger-panel profile-card">
+  <div class="profile-card__avatar">{{ user?.['name']?.charAt(0) || 'A' }}</div>
+
+  <div class="profile-card__grid">
+    <div class="profile-field">
+      <span>Name</span>
+      <strong>{{ user?.['name'] || '—' }}</strong>
+    </div>
+    <div class="profile-field">
+      <span>Email</span>
+      <strong>{{ user?.['email'] || '—' }}</strong>
+    </div>
+    <div class="profile-field">
+      <span>Username</span>
+      <strong>{{ user?.['username'] || '—' }}</strong>
+    </div>
+    <div class="profile-field">
+      <span>Department</span>
+      <strong>{{ user?.['department'] || '—' }}</strong>
+    </div>
+    <div class="profile-field">
+      <span>DOB</span>
+      <strong>{{ user?.['dob'] || '—' }}</strong>
+    </div>
+    <div class="profile-field">
+      <span>Joining Year</span>
+      <strong>{{ user?.['joiningYear'] || '—' }}</strong>
+    </div>
+    <div class="profile-field">
+      <span>Contact Number</span>
+      <strong>{{ user?.['contactNumber'] || '—' }}</strong>
+    </div>
+  </div>
+</div>

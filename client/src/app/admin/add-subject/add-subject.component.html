@@ -1,0 +1,51 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-journal-bookmark"></i>
+  <span>Add Subject</span>
+</div>
+
+<form class="ledger-panel ledger-form" (ngSubmit)="submit()" #f="ngForm">
+  <div class="ledger-grid">
+    <div>
+      <div class="ledger-field">
+        <label>Subject Name</label>
+        <input type="text" required placeholder="e.g. Data Structures" [(ngModel)]="value.subjectName" name="subjectName" />
+      </div>
+      <div class="ledger-field">
+        <label>Subject Code</label>
+        <input type="text" required placeholder="e.g. CS201" [(ngModel)]="value.subjectCode" name="subjectCode" />
+      </div>
+    </div>
+
+    <div>
+      <div class="ledger-field">
+        <label>Department</label>
+        <select required [(ngModel)]="value.department" name="department">
+          <option value="">None</option>
+          <option *ngFor="let dp of departments" [value]="dp.department">{{ dp.department }}</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Year</label>
+        <select required [(ngModel)]="value.year" name="year">
+          <option value="">None</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Total Lectures</label>
+        <input type="number" placeholder="e.g. 40" [(ngModel)]="value.totalLectures" name="totalLectures" />
+      </div>
+    </div>
+  </div>
+
+  <div class="ledger-actions">
+    <button type="submit" class="btn-ledger-primary" [disabled]="!f.form.valid || loading">Submit</button>
+    <button type="button" class="btn-ledger-secondary" (click)="clear()">Clear</button>
+  </div>
+
+  <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Adding Subject</div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+</form>

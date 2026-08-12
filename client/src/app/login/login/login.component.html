@@ -1,0 +1,33 @@
+<div class="gate grain-bg">
+  <div class="gate__crest">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="30" stroke="#c9a227" stroke-width="1.5"/>
+      <circle cx="32" cy="32" r="24" stroke="#c9a227" stroke-width="1"/>
+      <text x="32" y="39" text-anchor="middle" font-family="Fraunces, serif" font-size="20" font-weight="700" fill="#c9a227">AIT</text>
+    </svg>
+  </div>
+
+  <span class="gate__eyebrow">Est. Campus Access Portal</span>
+  <h1 class="gate__title">ABC Institute of Technology</h1>
+  <p class="gate__subtitle">Present your access card to continue</p>
+
+  <div class="gate__desk">
+    <a routerLink="/login/facultylogin" class="desk-card desk-card--faculty">
+      <div class="desk-card__stripe"></div>
+      <div class="desk-card__seal">F</div>
+      <div class="desk-card__role">Faculty</div>
+      <div class="desk-card__hint">Staff &amp; teaching access</div>
+      <span class="desk-card__cta">Tap to enter &rarr;</span>
+    </a>
+
+    <a routerLink="/login/studentlogin" class="desk-card desk-card--student">
+      <div class="desk-card__stripe"></div>
+      <div class="desk-card__seal">S</div>
+      <div class="desk-card__role">Student</div>
+      <div class="desk-card__hint">Enrolled student access</div>
+      <span class="desk-card__cta">Tap to enter &rarr;</span>
+    </a>
+  </div>
+
+  <a routerLink="/login/adminlogin" class="gate__admin-link">Administrator sign-in</a>
+</div>

@@ -1,0 +1,76 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-pencil-square"></i>
+  <span>Update Profile</span>
+  <a routerLink="/student/update/password" class="action-link">
+    <i class="bi bi-shield-lock"></i> Password
+  </a>
+</div>
+
+<form class="ledger-panel ledger-form" (ngSubmit)="submit()" #f="ngForm">
+  <div class="ledger-grid">
+    <div>
+      <div class="ledger-field">
+        <label>Name</label>
+        <input type="text" [placeholder]="user?.['name']" [(ngModel)]="value.name" name="name" />
+      </div>
+      <div class="ledger-field">
+        <label>DOB</label>
+        <input type="text" [placeholder]="user?.['dob']" [(ngModel)]="value.dob" name="dob" />
+      </div>
+      <div class="ledger-field">
+        <label>Email</label>
+        <input type="text" [value]="user?.['email']" disabled />
+      </div>
+      <div class="ledger-field">
+        <label>Batch</label>
+        <input type="text" [placeholder]="user?.['batch']" [(ngModel)]="value.batch" name="batch" />
+      </div>
+      <div class="ledger-field">
+        <label>Father's Name</label>
+        <input type="text" [placeholder]="user?.['fatherName']" [(ngModel)]="value.fatherName" name="fatherName" />
+      </div>
+      <div class="ledger-field">
+        <label>Mother's Name</label>
+        <input type="text" [placeholder]="user?.['motherName']" [(ngModel)]="value.motherName" name="motherName" />
+      </div>
+    </div>
+
+    <div>
+      <div class="ledger-field">
+        <label>Department</label>
+        <select [(ngModel)]="value.department" name="department">
+          <option value="">None</option>
+          <option *ngFor="let dp of departments" [value]="dp.department">{{ dp.department }}</option>
+        </select>
+      </div>
+      <div class="ledger-field">
+        <label>Contact Number</label>
+        <input type="text" [placeholder]="user?.['contactNumber']" [(ngModel)]="value.contactNumber" name="contactNumber" />
+      </div>
+      <div class="ledger-field">
+        <label>Year</label>
+        <input type="text" [placeholder]="user?.['year']" [(ngModel)]="value.year" name="year" />
+      </div>
+      <div class="ledger-field">
+        <label>Section</label>
+        <input type="text" [placeholder]="user?.['section']" [(ngModel)]="value.section" name="section" />
+      </div>
+      <div class="ledger-field">
+        <label>Father's Contact Number</label>
+        <input type="text" [placeholder]="user?.['fatherContactNumber']" [(ngModel)]="value.fatherContactNumber" name="fatherContactNumber" />
+      </div>
+      <div class="ledger-field">
+        <label>Avatar</label>
+        <input type="file" (change)="onAvatarChange($event)" accept="image/*" />
+      </div>
+    </div>
+  </div>
+
+  <div class="ledger-actions">
+    <button type="submit" class="btn-ledger-primary" [disabled]="loading">Submit</button>
+    <button type="button" class="btn-ledger-secondary" (click)="cancel()">Cancel</button>
+  </div>
+
+  <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Updating</div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+</form>

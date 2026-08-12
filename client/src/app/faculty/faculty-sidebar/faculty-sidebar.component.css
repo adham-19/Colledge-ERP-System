@@ -1,0 +1,9 @@
+@import '../../admin/admin-sidebar/admin-sidebar.component.css';
+
+.admin-sidebar__link.is-active {
+  border-right: 2px solid var(--role-faculty);
+}
+
+.admin-sidebar__link i {
+  color: var(--role-faculty);
+}

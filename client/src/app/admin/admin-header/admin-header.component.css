@@ -1,0 +1,72 @@
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.75rem;
+  border-bottom: 1px solid rgba(13, 20, 32, 0.1);
+  background: #fff;
+}
+
+.admin-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.admin-header__seal {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--ink-900);
+  color: var(--brass);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-header__mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.admin-header__welcome {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(13, 20, 32, 0.45);
+}
+
+.admin-header__user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--ink-900);
+}
+
+.admin-header__avatar {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--brass);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-header__logout {
+  cursor: pointer;
+  margin-left: 0.3rem;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.admin-header__logout:hover {
+  transform: scale(1.15);
+  color: #a13636;
+}

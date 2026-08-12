@@ -1,0 +1,37 @@
+<div class="etable-wrap" *ngIf="rows.length > 0; else emptyState">
+  <table class="etable">
+    <thead>
+      <tr>
+        <th *ngIf="selectable" class="etable__select-col"></th>
+        <th>#</th>
+        <th *ngFor="let col of columns">{{ col.label }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows; let i = index">
+        <td *ngIf="selectable" class="etable__select-col">
+          <input
+            type="checkbox"
+            [checked]="isChecked(row._id)"
+            (change)="toggle(row._id, $any($event.target).checked)" />
+        </td>
+        <td>{{ i + 1 }}</td>
+        <td *ngFor="let col of columns">{{ row[col.key] }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="etable__actions" *ngIf="selectable">
+    <button
+      type="button"
+      class="btn-ledger-primary"
+      [disabled]="!hasSelection"
+      (click)="confirmDelete()">
+      Delete Selected
+    </button>
+  </div>
+</div>
+
+<ng-template #emptyState>
+  <p class="etable__empty">No records found.</p>
+</ng-template>

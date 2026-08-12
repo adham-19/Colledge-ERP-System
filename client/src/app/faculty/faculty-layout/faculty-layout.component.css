@@ -1,0 +1,7 @@
+@import '../../admin/shared/admin.css';
+
+.admin-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}

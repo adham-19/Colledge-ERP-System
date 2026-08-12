@@ -1,0 +1,75 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-calendar-check"></i>
+  <span>Mark Attendance</span>
+</div>
+
+<div class="ledger-panel search-delete-layout">
+  <form class="search-col" (ngSubmit)="onSearch()" #f="ngForm">
+    <div class="ledger-field">
+      <label>Department</label>
+      <select required [(ngModel)]="value.department" name="department">
+        <option value="">None</option>
+        <option *ngFor="let dp of departments" [value]="dp.department">{{ dp.department }}</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>Year</label>
+      <select required [(ngModel)]="value.year" name="year">
+        <option value="">None</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>Section</label>
+      <select required [(ngModel)]="value.section" name="section">
+        <option value="">None</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-ledger-primary">Search</button>
+  </form>
+
+  <div class="results-col">
+    <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Loading</div>
+    <p *ngIf="error" class="ledger-error">{{ error }}</p>
+
+    <div class="etable-wrap" *ngIf="search && !loading && !error && students.length > 0">
+      <table class="etable">
+        <thead>
+          <tr>
+            <th class="etable__select-col"></th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Section</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stu of students; let i = index">
+            <td class="etable__select-col">
+              <input type="checkbox" [checked]="isChecked(stu._id)" (change)="toggle(stu._id, $any($event.target).checked)" />
+            </td>
+            <td>{{ i + 1 }}</td>
+            <td>{{ stu.name }}</td>
+            <td>{{ stu.username }}</td>
+            <td>{{ stu.section }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mark-action-row">
+        <label>Subject</label>
+        <select [(ngModel)]="subjectName" name="subjectName">
+          <option value="">None</option>
+          <option *ngFor="let sub of subjects" [value]="sub.subjectName">{{ sub.subjectName }}</option>
+        </select>
+        <button type="button" class="btn-ledger-primary" (click)="markAttendance()">Mark</button>
+      </div>
+    </div>
+  </div>
+</div>

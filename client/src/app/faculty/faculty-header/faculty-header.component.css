@@ -1,0 +1,6 @@
+@import '../../admin/admin-header/admin-header.component.css';
+
+.admin-header__seal {
+  background: var(--role-faculty);
+  color: #fff;
+}

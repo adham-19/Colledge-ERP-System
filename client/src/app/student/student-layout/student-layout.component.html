@@ -1,0 +1,40 @@
+<div class="admin-shell grain-bg">
+  <div class="admin-frame">
+    <app-student-header></app-student-header>
+    <div class="admin-body">
+      <app-student-sidebar></app-student-sidebar>
+      <main class="admin-main">
+        <router-outlet></router-outlet>
+
+        <!-- New Test Notification -->
+        <div class="test-notification" *ngIf="showTestNotification && newTest">
+          <div class="notification-icon">🔔</div>
+
+          <div class="notification-content">
+            <div class="notification-header">
+              <strong>New Test Available</strong>
+
+              <button class="close-button" (click)="closeTestNotification()">
+                ×
+              </button>
+            </div>
+
+            <div class="subject-code">
+              {{ newTest.subjectCode }}
+            </div>
+
+            <div class="test-name">
+              {{ newTest.test }}
+            </div>
+
+            <div class="test-info">
+              <span> 📅 {{ newTest.date }} </span>
+
+              <span> 📝 {{ newTest.totalMarks }} Marks </span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

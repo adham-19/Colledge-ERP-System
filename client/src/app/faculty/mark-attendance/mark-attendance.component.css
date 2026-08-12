@@ -1,0 +1,23 @@
+@import '../../admin/shared/admin.css';
+@import '../../admin/shared-ui/entity-table/entity-table.component.css';
+
+.mark-action-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.mark-action-row label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgba(13, 20, 32, 0.55);
+}
+
+.mark-action-row select {
+  border: none;
+  border-bottom: 2px solid rgba(13, 20, 32, 0.15);
+  background: transparent;
+  padding: 0.35rem 0.1rem;
+  font-family: var(--font-body);
+}

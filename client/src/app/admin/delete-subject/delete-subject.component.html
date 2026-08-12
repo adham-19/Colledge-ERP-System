@@ -1,0 +1,40 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-journal-x"></i>
+  <span>Delete Subject</span>
+</div>
+
+<div class="ledger-panel search-delete-layout">
+  <form class="search-col" (ngSubmit)="search()" #f="ngForm">
+    <div class="ledger-field">
+      <label>Department</label>
+      <select required [(ngModel)]="department" name="department">
+        <option value="">None</option>
+        <option *ngFor="let dp of departments" [value]="dp.department">{{ dp.department }}</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>Year</label>
+      <select required [(ngModel)]="year" name="year">
+        <option value="">None</option>
+        <option value="1">1st Year</option>
+        <option value="2">2nd Year</option>
+        <option value="3">3rd Year</option>
+        <option value="4">4th Year</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-ledger-primary">Search</button>
+  </form>
+
+  <div class="results-col">
+    <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Loading</div>
+    <p *ngIf="error" class="ledger-error">{{ error }}</p>
+
+    <app-entity-table
+      *ngIf="searched && !loading && !error"
+      [rows]="results"
+      [columns]="columns"
+      [selectable]="true"
+      (deleteSelected)="onDelete($event)">
+    </app-entity-table>
+  </div>
+</div>

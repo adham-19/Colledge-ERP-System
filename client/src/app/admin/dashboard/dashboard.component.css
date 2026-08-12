@@ -1,0 +1,209 @@
+@import '../shared/admin.css';
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  background: #fff;
+  border-radius: 0.7rem;
+  box-shadow: 0 12px 30px -18px rgba(13, 20, 32, 0.25);
+  padding: 1.3rem 1.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.stat-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border-right: 1px solid rgba(13, 20, 32, 0.1);
+  padding-right: 1rem;
+}
+
+.stat-tile--last {
+  border-right: none;
+}
+
+.stat-tile__icon {
+  font-size: 1.6rem;
+  color: var(--brass);
+  background: rgba(201, 162, 39, 0.12);
+  border-radius: 50%;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-tile h1 {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(13, 20, 32, 0.55);
+  margin: 0;
+}
+
+.stat-tile h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin: 0;
+}
+
+.dash-row {
+  display: flex;
+  gap: 1.1rem;
+}
+
+.calendar-panel {
+  width: 17rem;
+  flex-shrink: 0;
+  padding: 1.1rem 1.2rem;
+}
+
+.calendar-panel h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 0.8rem;
+  color: var(--ink-900);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.3rem;
+  font-size: 0.78rem;
+}
+
+.calendar-grid__wd {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(13, 20, 32, 0.4);
+  padding-bottom: 0.3rem;
+}
+
+.calendar-grid__day {
+  text-align: center;
+  padding: 0.35rem 0;
+  border-radius: 0.3rem;
+  color: var(--ink-900);
+}
+
+.calendar-grid__day.is-empty {
+  visibility: hidden;
+}
+
+.calendar-grid__day.is-today {
+  background: var(--brass);
+  color: #fff;
+  font-weight: 700;
+}
+
+.notice-panel {
+  flex: 1;
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.notice-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.notice-panel__head i {
+  cursor: pointer;
+}
+
+.notice-panel__head h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  color: var(--ink-900);
+}
+
+.notice-panel__body {
+  overflow-y: auto;
+  max-height: 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notice-empty {
+  color: rgba(13, 20, 32, 0.4);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.notice-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.4rem;
+  background: rgba(13, 20, 32, 0.03);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.notice-row:hover {
+  background: var(--ink-900);
+  color: #fff;
+}
+
+.notice-row__dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--brass);
+  flex-shrink: 0;
+}
+
+.notice-row__topic {
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10rem;
+}
+
+.notice-row__content {
+  font-size: 0.82rem;
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notice-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.notice-detail__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: rgba(13, 20, 32, 0.55);
+}
+
+.notice-detail h4 {
+  align-self: center;
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+.notice-detail p {
+  font-size: 0.9rem;
+  color: var(--ink-900);
+  max-height: 9rem;
+  overflow-y: auto;
+}

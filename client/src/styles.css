@@ -1,0 +1,44 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+:root {
+  /* ==== Campus Admit-Card design tokens ==== */
+  --ink-950: #0d1420;
+  --ink-900: #10192b;
+  --ink-panel: #17223b;
+  --parchment: #ece4d3;
+  --parchment-dim: #cfc6b0;
+  --brass: #c9a227;
+  --brass-bright: #e0bc4a;
+  --hairline: rgba(236, 228, 211, 0.14);
+
+  /* role accent colours, borrowed from academic-regalia hoods */
+  --role-admin: #c9a227;
+  --role-faculty: #2f6b52;
+  --role-student: #8c3b3b;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--ink-950);
+  color: var(--parchment);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* subtle campus-hall grain, reused across login screens */
+.grain-bg {
+  background-color: var(--ink-950);
+  background-image:
+    radial-gradient(rgba(236, 228, 211, 0.05) 1px, transparent 1px),
+    repeating-linear-gradient(135deg, rgba(236, 228, 211, 0.025) 0px, rgba(236, 228, 211, 0.025) 1px, transparent 1px, transparent 26px);
+  background-size: 22px 22px, auto;
+}

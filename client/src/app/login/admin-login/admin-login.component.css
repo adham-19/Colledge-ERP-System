@@ -1,0 +1,6 @@
+@import '../shared/id-card.css';
+
+:host {
+  --role-color: var(--role-admin);
+  display: block;
+}

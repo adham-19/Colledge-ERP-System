@@ -1,0 +1,18 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-journal-plus"></i>
+  <span>Add Department</span>
+</div>
+
+<form class="ledger-panel ledger-form narrow-form" (ngSubmit)="submit()" #f="ngForm">
+  <div class="ledger-field">
+    <label>Department Name</label>
+    <input type="text" required placeholder="e.g. Computer Science" [(ngModel)]="department" name="department" />
+  </div>
+
+  <div class="ledger-actions">
+    <button type="submit" class="btn-ledger-primary" [disabled]="!f.form.valid || loading">Submit</button>
+  </div>
+
+  <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Adding Department</div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+</form>

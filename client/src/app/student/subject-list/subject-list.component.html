@@ -1,0 +1,16 @@
+<div class="admin-eyebrow">
+  <i class="bi bi-journal-bookmark"></i>
+  <span>Subject List</span>
+</div>
+
+<div class="ledger-panel" style="padding: 1.6rem 2rem;">
+  <div *ngIf="loading" class="ledger-status"><span class="dot"></span> Loading</div>
+  <p *ngIf="error" class="ledger-error">{{ error }}</p>
+
+  <app-entity-table
+    *ngIf="!loading && !error"
+    [rows]="results"
+    [columns]="columns"
+    [selectable]="false">
+  </app-entity-table>
+</div>

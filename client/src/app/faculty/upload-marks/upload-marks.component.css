@@ -1,0 +1,12 @@
+@import '../../admin/shared/admin.css';
+@import '../../admin/shared-ui/entity-table/entity-table.component.css';
+@import '../mark-attendance/mark-attendance.component.css';
+
+.marks-input {
+  width: 5rem;
+  border: none;
+  border-bottom: 2px solid rgba(13, 20, 32, 0.15);
+  background: transparent;
+  padding: 0.2rem 0.1rem;
+  font-family: var(--font-mono);
+}
