@@ -5,7 +5,7 @@ import {
   updateStudent,
   testResult,
   attendance,
-} from "../controller/studentController.js";
+} from "../controllers/studentController.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();

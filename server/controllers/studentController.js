@@ -16,9 +16,11 @@ export const studentLogin = async (req, res) => {
       errors.usernameError = "Student doesn't exist.";
       return res.status(404).json(errors);
     }
+    const expectedPassword = existingStudent.dob.split("-").reverse().join("-");
+
     const isPasswordCorrect = await bcrypt.compare(
       password,
-      existingStudent.password
+      existingStudent.password,
     );
     if (!isPasswordCorrect) {
       errors.passwordError = "Invalid Credentials";
@@ -29,9 +31,10 @@ export const studentLogin = async (req, res) => {
       {
         email: existingStudent.email,
         id: existingStudent._id,
+        role: "student",
       },
       "sEcReT",
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     res.status(200).json({ result: existingStudent, token: token });
@@ -144,8 +147,9 @@ export const testResult = async (req, res) => {
     const student = await Student.findOne({ department, year, section });
     const test = await Test.find({ department, year, section });
     if (test.length === 0) {
-      errors.notestError = "No Test Found";
-      return res.status(404).json(errors);
+      return res.status(200).json({
+        result: [],
+      });
     }
     var result = [];
     for (var i = 0; i < test.length; i++) {

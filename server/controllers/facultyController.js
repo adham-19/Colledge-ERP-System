@@ -1,116 +1,119 @@
-import faculty from "../models/faculty";
-import Student from "../models/student";
-import Subject from "../models/subject";
-import Marks from "../models/marks";
-import Test from "../models/test";
-import attendance from "../models/attendance";
-import bcrypt from "bcryptjs";
+import Faculty from "../models/faculty.js";
+import Test from "../models/test.js";
+import Student from "../models/student.js";
+import Subject from "../models/subject.js";
+import Marks from "../models/marks.js";
+import Attendence from "../models/attendance.js";
 import jwt from "jsonwebtoken";
-//login faculty
-export const loginFaculty = async (req, res, next) => {
-  const { email, password } = req.body;
-  const errors = { usernameErr: String, passwordErr: String };
+import bcrypt from "bcryptjs";
+
+export const facultyLogin = async (req, res) => {
+  const { username, password } = req.body;
+  const errors = { usernameError: String, passwordError: String };
   try {
-    const exsitingUser = await faculty.findOne({ email: email });
-    if (!exsitingUser) {
-      errors.usernameErr = "user do not exist";
+    const existingFaculty = await Faculty.findOne({ username });
+    if (!existingFaculty) {
+      errors.usernameError = "Faculty doesn't exist.";
       return res.status(404).json(errors);
     }
-    //password checking
-    const ismatch = bcrypt.compare(password, exsitingUser.password);
-    if (!ismatch) {
-      errors.passwordErr = "wrong userName or password";
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingFaculty.password,
+    );
+    if (!isPasswordCorrect) {
+      errors.passwordError = "Invalid Credentials";
       return res.status(404).json(errors);
     }
-    //token generation
+
     const token = jwt.sign(
-      { email: exsitingUser.email, id: exsitingUser._id },
-      "secret",
+      {
+        email: existingFaculty.email,
+        id: existingFaculty._id,
+      },
+      "sEcReT",
       { expiresIn: "1h" },
     );
-    return res.status(200).json({ result: exsitingUser, token: token });
+
+    res.status(200).json({ result: existingFaculty, token: token });
   } catch (error) {
-    return res.status(500).json({ message: "internal error" });
+    console.log(error);
   }
 };
 
-//updated password
-export const updatepassword = async (req, res, next) => {
-  const { newPassword, confirmedPassword, email } = req.body;
-  const errors = { mismatchError: String };
-  if (newPassword !== confirmedPassword) {
-    errors.mismatchError =
-      "Your password and confirmation password do not match";
-    return res.status(400).json(errors);
-  }
+export const updatedPassword = async (req, res) => {
   try {
-    const updatedFaculty = await faculty.findOne({ email: email });
-    //hashing password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    updatedFaculty.password = hashedPassword;
-    await updatedFaculty.save();
-    if (updatedFaculty.updatepassword === false) {
-      updatedFaculty.updatepassword = true;
-      await updatedFaculty.save();
+    const { newPassword, confirmPassword, email } = req.body;
+    const errors = { mismatchError: String };
+    if (newPassword !== confirmPassword) {
+      errors.mismatchError =
+        "Your password and confirmation password do not match";
+      return res.status(400).json(errors);
     }
-    return res.status(200).json({
+
+    const faculty = await Faculty.findOne({ email });
+    let hashedPassword;
+    hashedPassword = await bcrypt.hash(newPassword, 10);
+    faculty.password = hashedPassword;
+    await faculty.save();
+    if (faculty.passwordUpdated === false) {
+      faculty.passwordUpdated = true;
+      await faculty.save();
+    }
+
+    res.status(200).json({
       success: true,
-      message: "password updated successfully",
-      response: updatedFaculty,
+      message: "Password updated successfully",
+      response: faculty,
     });
   } catch (error) {
     const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
+    errors.backendError = error;
+    res.status(500).json(errors);
   }
 };
 
-export const updateFaculty = async (req, res, next) => {
+export const updateFaculty = async (req, res) => {
   try {
-    const { name, department, avatar, dob, contactNumber, email, designation } =
+    const { name, dob, department, contactNumber, avatar, email, designation } =
       req.body;
-    const updatedFaculty = await faculty.findOne({ email: email });
+    const updatedFaculty = await Faculty.findOne({ email });
     if (name) {
-      updateFaculty.name = name;
-      await updateFaculty.save();
-    }
-    if (department) {
-      updateFaculty.department = department;
-      await updateFaculty.save();
-    }
-    if (avatar) {
-      updateFaculty.avatar = avatar;
-      await updateFaculty.save();
+      updatedFaculty.name = name;
+      await updatedFaculty.save();
     }
     if (dob) {
-      updateFaculty.dob = dob;
-      await updateFaculty.save();
+      updatedFaculty.dob = dob;
+      await updatedFaculty.save();
+    }
+    if (department) {
+      updatedFaculty.department = department;
+      await updatedFaculty.save();
     }
     if (contactNumber) {
-      updateFaculty.contactNumber = contactNumber;
-      await updateFaculty.save();
-    }
-    if (email) {
-      updateFaculty.email = email;
-      await updateFaculty.save();
+      updatedFaculty.contactNumber = contactNumber;
+      await updatedFaculty.save();
     }
     if (designation) {
-      updateFaculty.designation = designation;
-      await updateFaculty.save();
+      updatedFaculty.designation = designation;
+      await updatedFaculty.save();
     }
-    res.status(200).json(updateFaculty);
+    if (avatar) {
+      updatedFaculty.avatar = avatar;
+      await updatedFaculty.save();
+    }
+    res.status(200).json(updatedFaculty);
   } catch (error) {
     const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
+    errors.backendError = error;
+    res.status(500).json(errors);
   }
 };
-//faculty creating test
 
 export const createTest = async (req, res, io) => {
   try {
     const { subjectCode, department, year, section, date, test, totalMarks } =
       req.body;
+    const errors = { testError: String };
     const existingTest = await Test.findOne({
       subjectCode,
       department,
@@ -118,86 +121,122 @@ export const createTest = async (req, res, io) => {
       section,
       test,
     });
-    const errors = { testError: String };
-
     if (existingTest) {
-      errors.testError = "test already exists";
+      errors.testError = "Given Test is already created";
       return res.status(400).json(errors);
     }
-    const newTest = await new Test({
-      subjectCode,
-      department,
-      year,
-      section,
-      date,
-      test,
-      totalMarks,
-    });
 
-    const students = await Student.find({ department, year, section });
+    const newTest = await new Test({
+      totalMarks,
+      section,
+      test,
+      date,
+      department,
+      subjectCode,
+      year,
+    });
     await newTest.save();
 
     const subject = await Subject.findOne({ subjectCode });
+
+    console.log("subjectCode:", subjectCode);
+    console.log("subject:", subject);
+    console.log("IO:", io);
+
     io.to(`subject:${subject._id}`).emit("new-test", {
       testId: newTest._id,
-      title: newTest.test,
-      subjectId: subject._id,
+      subject: subject.subjectName,
+      test: newTest.test,
+      date: newTest.date,
+      totalMarks: newTest.totalMarks,
     });
 
     return res.status(200).json({
       success: true,
-      message: "test added successfully",
+      message: "Test added successfully",
       response: newTest,
     });
   } catch (error) {
     const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
+    errors.backendError = error;
+    res.status(500).json(errors);
   }
 };
-//getting tests of faculty
-export const getTest = (req, res, next) => {
-  try {
-    const { department, year, section } = req.body;
-    const tests = Test.find({ department, year, section });
-    res.status(200).json({ result: tests });
-  } catch (error) {
-    const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
-  }
-};
-//get students
 
-export const getStudent = async (req, res, next) => {
+export const getTest = async (req, res) => {
   try {
     const { department, year, section } = req.body;
-    const students = await Student.find({ department, year, section });
-    const errors = { noStudentError: String };
-    if (students.length === 0) {
-      errors.noStudentError = "no student found";
-      return res.status(404).json(errors);
-    }
+
+    const query = { department };
+
+    if (year) query.year = year;
+    if (section) query.section = section;
+
+    const tests = await Test.find(query);
+
+    res.status(200).json({
+      result: tests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      backendError: error.message,
+    });
+  }
+};
+
+export const getStudent = async (req, res) => {
+  try {
+    const { department, year, section } = req.body;
+    const query = { department };
+    if (year) query.year = year;
+    if (section) query.section = section;
+    const students = await Student.find(query);
     res.status(200).json({ result: students });
   } catch (error) {
     const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
+    errors.backendError = error;
+    res.status(500).json(errors);
   }
 };
-//upload marks
-export const uploadMarks = async (req, res, next) => {
+
+export const getSubjects = async (req, res) => {
+  try {
+    const { department } = req.body;
+
+    const subjects = await Subject.find({
+      department,
+    });
+
+    res.status(200).json({
+      result: subjects,
+    });
+  } catch (error) {
+    res.status(500).json({
+      backendError: error.message,
+    });
+  }
+};
+
+export const uploadMarks = async (req, res) => {
   try {
     const { department, year, section, test, marks } = req.body;
+
     const errors = { examError: String };
-    const existingTest = await Test.findOne({ department, year, setion, test });
-    const isAlready = await Marks.findOne({
+    const existingTest = await Test.findOne({
+      department,
+      year,
+      section,
+      test,
+    });
+    const isAlready = await Marks.find({
       exam: existingTest._id,
     });
+
     if (isAlready.length !== 0) {
       errors.examError = "You have already uploaded marks of given exam";
-      res.status(400).json(errors);
+      return res.status(400).json(errors);
     }
+
     for (var i = 0; i < marks.length; i++) {
       const newMarks = await new Marks({
         student: marks[i]._id,
@@ -209,49 +248,51 @@ export const uploadMarks = async (req, res, next) => {
     res.status(200).json({ message: "Marks uploaded successfully" });
   } catch (error) {
     const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
+    errors.backendError = error;
+    res.status(500).json(errors);
   }
 };
-//mark attendence
-export const markAttendance = async (req, res, next) => {
+
+export const markAttendance = async (req, res) => {
   try {
     const { selectedStudents, subjectName, department, year, section } =
       req.body;
-    //get sub
+
     const sub = await Subject.findOne({ subjectName });
+
     const allStudents = await Student.find({ department, year, section });
-    //adding the lectures for every student
+
     for (let i = 0; i < allStudents.length; i++) {
-      const pre = await attendance.findOne({
+      const pre = await Attendence.findOne({
         student: allStudents[i]._id,
         subject: sub._id,
       });
       if (!pre) {
-        const newAttendance = await new attendance({
+        const attendence = new Attendence({
           student: allStudents[i]._id,
           subject: sub._id,
         });
-        newAttendance.totalLecturesByFaculty += 1;
-        await newAttendance.save();
+        attendence.totalLecturesByFaculty += 1;
+        await attendence.save();
       } else {
         pre.totalLecturesByFaculty += 1;
         await pre.save();
       }
     }
 
-    for (let a = 0; a < selectedStudents.length; a++) {
-      const pre = await attendance.findOne({
+    for (var a = 0; a < selectedStudents.length; a++) {
+      const pre = await Attendence.findOne({
         student: selectedStudents[a],
         subject: sub._id,
       });
       if (!pre) {
-        const newAttendance = await new attendance({
+        const attendence = new Attendence({
           student: selectedStudents[a],
           subject: sub._id,
         });
-        newAttendance.lectureAttended += 1;
-        await newAttendance.save();
+
+        attendence.lectureAttended += 1;
+        await attendence.save();
       } else {
         pre.lectureAttended += 1;
         await pre.save();
@@ -260,7 +301,7 @@ export const markAttendance = async (req, res, next) => {
     res.status(200).json({ message: "Attendance Marked successfully" });
   } catch (error) {
     const errors = { backendError: String };
-    error.backendError = error;
-    return res.status(500).json(error);
+    errors.backendError = error;
+    res.status(500).json(errors);
   }
 };
