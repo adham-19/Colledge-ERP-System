@@ -6,6 +6,8 @@ import Subject from "../models/subject.js";
 import Notice from "../models/notice.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import crypto from 'crypto';
+import { sendWelcomeEmail } from "../services/emailService.js";
 
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -127,13 +129,13 @@ export const addAdmin = async (req, res) => {
     }
     var date = new Date();
     var components = ["ADM", date.getFullYear(), departmentHelper, helper];
-
     var username = components.join("");
-    let hashedPassword;
-    const newDob = dob.split("-").reverse().join("-");
 
-    hashedPassword = await bcrypt.hash(newDob, 10);
+    const temporaryPassword = generateTemporaryPassword();
+    const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
     var passwordUpdated = false;
+
     const newAdmin = await new Admin({
       name,
       email,
@@ -147,6 +149,14 @@ export const addAdmin = async (req, res) => {
       passwordUpdated,
     });
     await newAdmin.save();
+
+    await sendWelcomeEmail(
+      newAdmin.email,
+      newAdmin.username,
+      temporaryPassword,
+      "admin",
+    );
+
     return res.status(200).json({
       success: true,
       message: "Admin registerd successfully",
@@ -282,13 +292,11 @@ export const addFaculty = async (req, res) => {
     }
     var date = new Date();
     var components = ["FAC", date.getFullYear(), departmentHelper, helper];
-
     var username = components.join("");
-    let hashedPassword;
-    const newDob = dob.split("-").reverse().join("-");
-    console.log(newDob);
 
-    hashedPassword = await bcrypt.hash(newDob, 10);
+    const temporaryPassword = generateTemporaryPassword();
+    const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
     var passwordUpdated = false;
 
     const newFaculty = await new Faculty({
@@ -306,6 +314,14 @@ export const addFaculty = async (req, res) => {
       passwordUpdated,
     });
     await newFaculty.save();
+
+    await sendWelcomeEmail(
+      newFaculty.email,
+      newFaculty.username,
+      temporaryPassword,
+      "faculty",
+    );
+
     return res.status(200).json({
       success: true,
       message: "Faculty registerd successfully",
@@ -545,12 +561,11 @@ export const addStudent = async (req, res) => {
     }
     var date = new Date();
     var components = ["STU", date.getFullYear(), departmentHelper, helper];
-
     var username = components.join("");
-    let hashedPassword;
-    const newDob = dob.split("-").reverse().join("-");
 
-    hashedPassword = await bcrypt.hash(newDob, 10);
+    const temporaryPassword = generateTemporaryPassword();
+    const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
     var passwordUpdated = false;
 
     const newStudent = await new Student({
@@ -580,6 +595,14 @@ export const addStudent = async (req, res) => {
       }
     }
     await newStudent.save();
+
+    await sendWelcomeEmail(
+      newStudent.email,
+      newStudent.username,
+      temporaryPassword,
+      "student",
+    );
+
     return res.status(200).json({
       success: true,
       message: "Student registerd successfully",
@@ -588,6 +611,7 @@ export const addStudent = async (req, res) => {
   } catch (error) {
     const errors = { backendError: String };
     errors.backendError = error;
+    console.log(error.message)
     res.status(500).json(errors);
   }
 };
@@ -651,4 +675,18 @@ export const getAllSubject = async (req, res) => {
   } catch (error) {
     console.log("Backend Error", error);
   }
+};
+
+const generateTemporaryPassword = (length = 10) => {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+
+  const randomBytes = crypto.randomBytes(length);
+
+  let password = "";
+
+  for (let i = 0; i < length; i++) {
+    password += chars[randomBytes[i] % chars.length];
+  }
+
+  return password;
 };

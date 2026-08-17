@@ -17,7 +17,6 @@ export const studentLogin = async (req, res) => {
       errors.usernameError = "Student doesn't exist.";
       return res.status(404).json(errors);
     }
-    const expectedPassword = existingStudent.dob.split("-").reverse().join("-");
 
     const isPasswordCorrect = await bcrypt.compare(
       password,
