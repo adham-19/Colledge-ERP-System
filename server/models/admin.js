@@ -1,14 +1,10 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 
-const adminSchema = new mongoose.Schema(
+const adminSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
-      trim: true,
-      minlength: 3,
-      maxlength: 50,
+      require: true,
     },
     email: {
       type: String,
@@ -23,47 +19,31 @@ const adminSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
-      select: false,
     },
     username: {
       type: String,
     },
-    departmentId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "department",
-      required: true,
+    department: {
+      type: String,
     },
     dob: {
-      type: Date,
+      type: String,
     },
     joiningYear: {
-      type: Number,
+      type: String,
     },
     avatar: {
       type: String,
     },
     contactNumber: {
-      type: String,
+      type: Number,
     },
-    // For first login (There is a defualt password until he changes it)
     passwordUpdated: {
       type: Boolean,
       default: false,
     },
   },
-  {
-    timestamps: true,
-  },
+  { strict: false },
 );
-
-adminSchema.pre("save", async function () {
-  if (!this.isModified("password")) {
-    return;
-  }
-
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
 
 export default mongoose.model("admin", adminSchema);

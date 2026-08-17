@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -11,8 +12,8 @@ import { addDummyAdmin } from "./controllers/adminController.js";
 import adminRouter from "./routes/adminRoutes.js";
 import studentRouter from "./routes/studentRoutes.js";
 import facultyRouter from "./routes/facultyRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 
-dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -34,6 +35,7 @@ setupSocket(io);
 app.use("/api/admin", adminRouter);
 app.use("/api/student", studentRouter);
 app.use("/api/faculty", facultyRouter);
+app.use("/api/auth", authRouter);
 
 app.use(function (req, res) {
   res.status(404).json({ message: "Page Not Found" });

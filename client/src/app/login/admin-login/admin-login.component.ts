@@ -11,7 +11,6 @@ import { LoginErrors } from '../../core/models/auth.model';
 })
 export class AdminLoginComponent implements OnInit, OnDestroy {
   // نفس الـ useState بتوع AdminLogin.js
-  translate = false;
   username = '';
   password = '';
   showPassword = false;
@@ -23,9 +22,6 @@ export class AdminLoginComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // نفس الـ setTimeout بتاع الـ translate animation
-    setTimeout(() => (this.translate = true), 1000);
-
     // نفس useEffect اللي بيسمع لـ store.errors
     this.errorsSub = this.authService.errors$.subscribe((errors) => {
       if (errors) {

@@ -6,7 +6,9 @@
 
     <div class="admit-card__header">
       <div>
-        <span class="admit-card__eyebrow">ABC Institute &middot; Access Card</span>
+        <span class="admit-card__eyebrow"
+          >ABC Institute &middot; Access Card</span
+        >
         <div class="admit-card__role">Administrator</div>
       </div>
       <div class="admit-card__seal">A</div>
@@ -21,7 +23,8 @@
           required
           class="field-input"
           placeholder="e.g. admin.rao"
-          [(ngModel)]="username" />
+          [(ngModel)]="username"
+        />
       </div>
 
       <div class="field-group">
@@ -33,14 +36,26 @@
             required
             class="field-input"
             placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-            [(ngModel)]="password" />
+            [(ngModel)]="password"
+          />
           <span class="eye-toggle" (click)="togglePassword()">
-            <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+            <i
+              class="bi"
+              [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"
+            ></i>
           </span>
         </div>
       </div>
 
-      <button type="submit" [disabled]="!loginForm.form.valid || loading" class="admit-submit">
+      <a routerLink="/forgot-password/admin" class="forgot-password">
+        Forgot Password?
+      </a>
+
+      <button
+        type="submit"
+        [disabled]="!loginForm.form.valid || loading"
+        class="admit-submit"
+      >
         Enter Admin Console
       </button>
 
@@ -48,7 +63,10 @@
         <span class="dot"></span> Verifying credentials
       </div>
 
-      <p *ngIf="errors.usernameError || errors.passwordError" class="admit-error">
+      <p
+        *ngIf="errors.usernameError || errors.passwordError"
+        class="admit-error"
+      >
         {{ errors.usernameError || errors.passwordError }}
       </p>
     </form>

@@ -57,19 +57,33 @@ export class AuthService {
     return this.signIn("student", credentials);
   }
 
-updateCurrentUser(updatedUser: any): void {
-  const current = this.currentUser;
+  forgotPassword(email: string, role: string) {
+    return this.http.post(`${environment.apiUrl}/auth/forgot-password`, {
+      email,
+      role,
+    });
+  }
 
-  if (!current) return;
+  resetPassword(token: string, password: string, role: string) {
+    return this.http.post(`${environment.apiUrl}/auth/reset-password/${token}`, {
+      password,
+      role,
+    });
+  }
 
-  const updated: StoredUser = {
-    ...current,
-    result: updatedUser,
-  };
+  updateCurrentUser(updatedUser: any): void {
+    const current = this.currentUser;
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  this.currentUserSubject.next(updated);
-}
+    if (!current) return;
+
+    const updated: StoredUser = {
+      ...current,
+      result: updatedUser,
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    this.currentUserSubject.next(updated);
+  }
 
   private signIn(
     role: UserRole,

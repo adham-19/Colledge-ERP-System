@@ -8,7 +8,7 @@ export default function socketAuth(socket, next) {
       return next(new Error("Authentication required"));
     }
 
-    const decoded = jwt.verify(token, "sEcReT");
+    const decoded = jwt.verify(token, process.env.SECRETKEY);
     socket.user = decoded;
 
     next();

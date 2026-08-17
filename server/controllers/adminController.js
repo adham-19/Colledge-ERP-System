@@ -18,7 +18,7 @@ export const adminLogin = async (req, res) => {
     }
     const isPasswordCorrect = await bcrypt.compare(
       password,
-      existingAdmin.password
+      existingAdmin.password,
     );
     if (!isPasswordCorrect) {
       errors.passwordError = "Invalid Credentials";
@@ -30,8 +30,8 @@ export const adminLogin = async (req, res) => {
         email: existingAdmin.email,
         id: existingAdmin._id,
       },
-      "sEcReT",
-      { expiresIn: "1h" }
+      process.env.SECRETKEY,
+      { expiresIn: "1h" },
     );
 
     res.status(200).json({ result: existingAdmin, token: token });
@@ -286,7 +286,7 @@ export const addFaculty = async (req, res) => {
     var username = components.join("");
     let hashedPassword;
     const newDob = dob.split("-").reverse().join("-");
-    console.log(newDob)
+    console.log(newDob);
 
     hashedPassword = await bcrypt.hash(newDob, 10);
     var passwordUpdated = false;

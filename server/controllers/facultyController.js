@@ -30,7 +30,7 @@ export const facultyLogin = async (req, res) => {
         email: existingFaculty.email,
         id: existingFaculty._id,
       },
-      "sEcReT",
+      process.env.SECRETKEY,
       { expiresIn: "1h" },
     );
 

@@ -6,9 +6,15 @@ const facultySchema = new mongoose.Schema({
     required: true,
   },
   email: {
-    type: String,
-    required: true,
-    unique: true,
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowercase: true,
+      match: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/,
+        "Invalid email format",
+      ],
   },
   avatar: {
     type: String,
@@ -45,6 +51,15 @@ const facultySchema = new mongoose.Schema({
   passwordUpdated: {
     type: Boolean,
     default: false,
+  },
+  resetPasswordToken: {
+    type: String,
+    default: null,
+  },
+
+  resetPasswordExpires: {
+    type: Date,
+    default: null,
   },
 });
 

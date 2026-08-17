@@ -1,6 +1,16 @@
-@import '../shared/id-card.css';
+@import "../shared/id-card.css";
 
 :host {
   --role-color: var(--role-faculty);
   display: block;
+}
+
+.forgot-password {
+  color: rgba(0, 0, 0, 0.218);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s linear;
+}
+.forgot-password:hover {
+  color: black;
 }

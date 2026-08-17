@@ -6,9 +6,15 @@ const studentSchema = new Schema({
     required: true,
   },
   email: {
-    type: String,
-    required: true,
-    unique: true,
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowercase: true,
+      match: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/,
+        "Invalid email format",
+      ],
   },
   avatar: {
     type: String,
@@ -63,6 +69,15 @@ const studentSchema = new Schema({
   passwordUpdated: {
     type: Boolean,
     default: false,
+  },
+  resetPasswordToken: {
+    type: String,
+    default: null,
+  },
+
+  resetPasswordExpires: {
+    type: Date,
+    default: null,
   },
 });
 

@@ -6,6 +6,7 @@ import Marks from "../models/marks.js";
 import Attendence from "../models/attendance.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 export const studentLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -33,7 +34,7 @@ export const studentLogin = async (req, res) => {
         id: existingStudent._id,
         role: "student",
       },
-      "sEcReT",
+      process.env.SECRETKEY,
       { expiresIn: "1h" },
     );
 
