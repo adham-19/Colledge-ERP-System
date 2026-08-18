@@ -6,8 +6,12 @@ import Subject from "../models/subject.js";
 import Notice from "../models/notice.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import crypto from 'crypto';
+import crypto from "crypto";
 import { sendWelcomeEmail } from "../services/emailService.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateTokens.js";
 
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -27,16 +31,26 @@ export const adminLogin = async (req, res) => {
       return res.status(404).json(errors);
     }
 
-    const token = jwt.sign(
-      {
-        email: existingAdmin.email,
-        id: existingAdmin._id,
-      },
-      process.env.SECRETKEY,
-      { expiresIn: "1h" },
-    );
+    const user = {
+      id: existingAdmin._id,
+      email: existingAdmin.email,
+      role: "admin",
+    };
 
-    res.status(200).json({ result: existingAdmin, token: token });
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      result: existingAdmin,
+      token: accessToken,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -611,7 +625,7 @@ export const addStudent = async (req, res) => {
   } catch (error) {
     const errors = { backendError: String };
     errors.backendError = error;
-    console.log(error.message)
+    console.log(error.message);
     res.status(500).json(errors);
   }
 };

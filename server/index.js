@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
+import cookieParser from "cookie-parser";
 
 import setupSocket from "./sockets/socket.js";
 import { addDummyAdmin } from "./controllers/adminController.js";
@@ -17,10 +18,12 @@ import authRouter from "./routes/authRoutes.js";
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:4200",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
   }),
 );
 

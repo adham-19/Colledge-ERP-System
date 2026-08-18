@@ -4,6 +4,8 @@ import Admin from "../models/admin.js";
 import Student from "../models/student.js";
 import Faculty from "../models/faculty.js";
 import { sendResetEmail } from "../services/emailService.js";
+import jwt from 'jsonwebtoken';
+import { generateAccessToken } from "../utils/generateTokens.js";
 
 const models = {
   admin: Admin,
@@ -134,4 +136,59 @@ export const resetPassword = async (req, res) => {
       message: "Something went wrong",
     });
   }
+};
+
+
+export const refreshAccessToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    console.log("REFRESH TOKEN:", refreshToken);
+
+    if (!refreshToken) {
+      console.log("NO REFRESH TOKEN COOKIE");
+
+      return res.status(401).json({
+        message: "Refresh token not found",
+        code: "REFRESH_TOKEN_MISSING",
+      });
+    }
+
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_SECRETKEY
+    );
+
+    console.log("REFRESH TOKEN VALID:", decoded);
+
+    const accessToken = generateAccessToken({
+      id: decoded.id,
+      email: decoded.email,
+      role: decoded.role,
+    });
+
+    return res.status(200).json({
+      accessToken,
+    });
+
+  } catch (error) {
+    console.log("REFRESH ERROR:", error);
+
+    return res.status(401).json({
+      message: "Invalid or expired refresh token",
+      code: "REFRESH_TOKEN_INVALID",
+    });
+  }
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  res.status(200).json({
+    message: "Logged out successfully",
+  });
 };

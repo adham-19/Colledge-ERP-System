@@ -9,6 +9,7 @@ import {
   StoredUser,
   UserRole,
 } from "../models/auth.model";
+import { Router } from "@angular/router";
 import { SocketService } from "./socket.service";
 
 const STORAGE_KEY = "user";
@@ -29,6 +30,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private socketService: SocketService,
+    private router: Router,
   ) {}
 
   private readUserFromStorage(): StoredUser | null {
@@ -65,10 +67,13 @@ export class AuthService {
   }
 
   resetPassword(token: string, password: string, role: string) {
-    return this.http.post(`${environment.apiUrl}/auth/reset-password/${token}`, {
-      password,
-      role,
-    });
+    return this.http.post(
+      `${environment.apiUrl}/auth/reset-password/${token}`,
+      {
+        password,
+        role,
+      },
+    );
   }
 
   updateCurrentUser(updatedUser: any): void {
@@ -85,12 +90,38 @@ export class AuthService {
     this.currentUserSubject.next(updated);
   }
 
+  refreshToken(): Observable<{ accessToken: string }> {
+    return this.http.post<{ accessToken: string }>(
+      `${environment.apiUrl}/auth/refresh`,
+      {},
+      {
+        withCredentials: true,
+      },
+    );
+  }
+
+  updateToken(token: string): void {
+    const current = this.currentUser;
+
+    if (!current) return;
+
+    const updated: StoredUser = {
+      ...current,
+      token,
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    this.currentUserSubject.next(updated);
+  }
+
   private signIn(
     role: UserRole,
     credentials: LoginCredentials,
   ): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/${role}/login`, credentials)
+      .post<AuthResponse>(`${environment.apiUrl}/${role}/login`, credentials, {
+        withCredentials: true,
+      })
       .pipe(
         tap((res) => this.persistSession(role, res)),
         catchError((err: HttpErrorResponse) => this.handleError(err)),
@@ -113,10 +144,39 @@ export class AuthService {
     return throwError(() => err);
   }
 
-  logout(): void {
+  private clearLocalSession(): void {
     this.socketService.disconnect();
     localStorage.removeItem(STORAGE_KEY);
     this.currentUserSubject.next(null);
+  }
+
+  sessionExpired(): void {
+    alert(
+      "Your session has expired. You will be redirected to the login page. Please sign in again.",
+    );
+
+    this.forceLogout();
+  }
+
+  logout(): void {
+    this.http
+      .post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true })
+      .subscribe({
+        next: () => this.clearLocalSession(),
+        error: () => this.clearLocalSession(),
+      });
+  }
+
+  forceLogout(): void {
+    const role = this.role;
+
+    this.clearLocalSession();
+
+    if (role) {
+      this.router.navigate([`/login/${role}login`]);
+    } else {
+      this.router.navigate(["/login"]);
+    }
   }
 
   get token(): string | null {

@@ -25,16 +25,26 @@ export const facultyLogin = async (req, res) => {
       return res.status(404).json(errors);
     }
 
-    const token = jwt.sign(
-      {
-        email: existingFaculty.email,
-        id: existingFaculty._id,
-      },
-      process.env.SECRETKEY,
-      { expiresIn: "1h" },
-    );
+    const user = {
+      id: existingFaculty._id,
+      email: existingFaculty.email,
+      role: "faculty",
+    };
 
-    res.status(200).json({ result: existingFaculty, token: token });
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      result: existingFaculty,
+      token: accessToken,
+    });
   } catch (error) {
     console.log(error);
   }

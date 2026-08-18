@@ -27,17 +27,27 @@ export const studentLogin = async (req, res) => {
       return res.status(404).json(errors);
     }
 
-    const token = jwt.sign(
-      {
-        email: existingStudent.email,
-        id: existingStudent._id,
-        role: "student",
-      },
-      process.env.SECRETKEY,
-      { expiresIn: "1h" },
-    );
+    const user = {
+      id: existingStudent._id,
+      email: existingStudent.email,
+      role: "student",
+    };
 
-    res.status(200).json({ result: existingStudent, token: token });
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      result: existingStudent,
+      token: accessToken,
+    });
   } catch (error) {
     console.log(error);
   }
