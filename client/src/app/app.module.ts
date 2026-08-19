@@ -9,9 +9,10 @@ import { AdminModule } from './admin/admin.module';
 import { FacultyModule } from './faculty/faculty.module';
 import { StudentModule } from './student/student.module';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { NotificationComponent } from './shared/notification/notification.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NotificationComponent],
   imports: [BrowserModule, AppRoutingModule, LoginModule, AdminModule, FacultyModule, StudentModule],
   providers: [provideHttpClient(withInterceptors([authInterceptor]))],
   bootstrap: [AppComponent],

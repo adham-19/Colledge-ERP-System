@@ -5,6 +5,7 @@ import { FacultyService } from "../../core/services/faculty.service";
 import { AuthService } from "../../core/services/auth.service";
 import { Department } from "../../core/models/admin.model";
 import { fileToBase64 } from "../../core/utils/file-to-base64";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
   selector: "app-faculty-profile-update",
@@ -32,6 +33,7 @@ export class FacultyProfileUpdateComponent implements OnInit {
     private facultyService: FacultyService,
     private authService: AuthService,
     private router: Router,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +58,10 @@ export class FacultyProfileUpdateComponent implements OnInit {
       !avatar &&
       !designation
     ) {
-      alert("Enter atleast one value");
+      this.notificationService.warning(
+        "Required Data",
+        "Enter at least one value",
+      );
       return;
     }
 

@@ -1,36 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../core/services/admin.service';
-import { Department } from '../../core/models/admin.model';
-import { EntityColumn } from '../shared-ui/entity-table/entity-table.component';
+import { Component, OnInit } from "@angular/core";
+import { AdminService } from "../../core/services/admin.service";
+import { Department } from "../../core/models/admin.model";
+import { EntityColumn } from "../shared-ui/entity-table/entity-table.component";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
-  selector: 'app-delete-admin',
-  templateUrl: './delete-admin.component.html',
-  styleUrls: ['./delete-admin.component.css'],
+  selector: "app-delete-admin",
+  templateUrl: "./delete-admin.component.html",
+  styleUrls: ["./delete-admin.component.css"],
 })
 export class DeleteAdminComponent implements OnInit {
   departments: Department[] = [];
-  department = '';
+  department = "";
   results: any[] = [];
   searched = false;
   loading = false;
-  error = '';
+  error = "";
 
   columns: EntityColumn[] = [
-    { key: 'name', label: 'Name' },
-    { key: 'username', label: 'Username' },
-    { key: 'email', label: 'Email' },
+    { key: "name", label: "Name" },
+    { key: "username", label: "Username" },
+    { key: "email", label: "Email" },
   ];
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
-    this.adminService.getAllDepartment().subscribe((depts) => (this.departments = depts));
+    this.adminService
+      .getAllDepartment()
+      .subscribe((depts) => (this.departments = depts));
   }
 
   search(): void {
     this.loading = true;
-    this.error = '';
+    this.error = "";
     this.searched = true;
     this.adminService.getAdmin({ department: this.department }).subscribe({
       next: (res) => {
@@ -40,7 +46,10 @@ export class DeleteAdminComponent implements OnInit {
       error: (err) => {
         this.results = [];
         this.loading = false;
-        this.error = err.error?.noAdminError || err.error?.backendError || 'Something went wrong';
+        this.error =
+          err.error?.noAdminError ||
+          err.error?.backendError ||
+          "Something went wrong";
       },
     });
   }
@@ -50,12 +59,15 @@ export class DeleteAdminComponent implements OnInit {
     this.loading = true;
     this.adminService.deleteAdmin(ids).subscribe({
       next: () => {
-        alert('Admin Deleted');
+        this.notificationService.success(
+          "Admin Deleted",
+          "The admin was deleted successfully.",
+        );
         this.search();
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.backendError || 'Something went wrong';
+        this.error = err.error?.backendError || "Something went wrong";
       },
     });
   }

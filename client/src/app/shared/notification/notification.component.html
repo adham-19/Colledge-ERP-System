@@ -1,0 +1,63 @@
+<div class="notification-container">
+  <div
+    *ngFor="let notification of notifications"
+    class="notification"
+    [ngClass]="'notification-' + notification.type"
+  >
+    <!-- Icon -->
+    <div class="notification-icon">
+      {{ getIcon(notification.type) }}
+    </div>
+
+    <!-- Content -->
+    <div class="notification-content">
+
+      <!-- Header -->
+      <div class="notification-header">
+        <strong>
+          {{ notification.title }}
+        </strong>
+
+        <button
+          class="close-button"
+          type="button"
+          (click)="closeNotification(notification.id)"
+        >
+          ×
+        </button>
+      </div>
+
+      <!-- Normal notification -->
+      <p
+        *ngIf="notification.type !== 'test'"
+        class="notification-message"
+      >
+        {{ notification.message }}
+      </p>
+
+      <!-- Test notification -->
+      <ng-container
+        *ngIf="notification.type === 'test'"
+      >
+        <div class="subject-code">
+          {{ notification.subjectCode }}
+        </div>
+
+        <div class="test-name">
+          {{ notification.testName }}
+        </div>
+
+        <div class="test-info">
+          <span>
+            📅 {{ notification.date }}
+          </span>
+
+          <span>
+            📝 {{ notification.totalMarks }} Marks
+          </span>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

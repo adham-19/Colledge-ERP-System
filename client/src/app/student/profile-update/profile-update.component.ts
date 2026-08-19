@@ -5,6 +5,7 @@ import { StudentService } from "../../core/services/student.service";
 import { AuthService } from "../../core/services/auth.service";
 import { Department } from "../../core/models/admin.model";
 import { fileToBase64 } from "../../core/utils/file-to-base64";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
   selector: "app-student-profile-update",
@@ -37,6 +38,7 @@ export class StudentProfileUpdateComponent implements OnInit {
     private studentService: StudentService,
     private authService: AuthService,
     private router: Router,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,10 @@ export class StudentProfileUpdateComponent implements OnInit {
   submit(): void {
     const allEmpty = Object.values(this.value).every((v) => v === "");
     if (allEmpty) {
-      alert("Enter atleast one value");
+      this.notificationService.warning(
+        "Required Data",
+        "Enter at least one value",
+      );
       return;
     }
 

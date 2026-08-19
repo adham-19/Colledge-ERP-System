@@ -1,61 +1,73 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../core/services/admin.service';
-import { Department } from '../../core/models/admin.model';
+import { Component, OnInit } from "@angular/core";
+import { AdminService } from "../../core/services/admin.service";
+import { Department } from "../../core/models/admin.model";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
-  selector: 'app-add-student',
-  templateUrl: './add-student.component.html',
-  styleUrls: ['./add-student.component.css'],
+  selector: "app-add-student",
+  templateUrl: "./add-student.component.html",
+  styleUrls: ["./add-student.component.css"],
 })
 export class AddStudentComponent implements OnInit {
   departments: Department[] = [];
   loading = false;
-  error = '';
+  error = "";
 
   value: any = this.emptyValue();
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
-    this.adminService.getAllDepartment().subscribe((depts) => (this.departments = depts));
+    this.adminService
+      .getAllDepartment()
+      .subscribe((depts) => (this.departments = depts));
   }
 
   private emptyValue() {
     return {
-      name: '',
-      dob: '',
-      email: '',
-      gender: '',
-      fatherName: '',
-      motherName: '',
-      department: '',
-      section: '',
-      batch: '',
-      year: '',
-      contactNumber: '',
-      fatherContactNumber: '',
-      motherContactNumber: '',
+      name: "",
+      dob: "",
+      email: "",
+      gender: "",
+      fatherName: "",
+      motherName: "",
+      department: "",
+      section: "",
+      batch: "",
+      year: "",
+      contactNumber: "",
+      fatherContactNumber: "",
+      motherContactNumber: "",
     };
   }
 
   submit(): void {
     this.loading = true;
-    this.error = '';
+    this.error = "";
     this.adminService.addStudent(this.value).subscribe({
       next: () => {
         this.loading = false;
-        alert('Student Added Successfully');
+        this.notificationService.success(
+          "Student Added",
+          "The student was added successfully.",
+        );
         this.clear();
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.emailError || err.error?.backendError || 'Something went wrong';
+        this.error =
+          err.error?.emailError ||
+          err.error?.backendError ||
+          "Something went wrong";
       },
     });
   }
 
   clear(): void {
     this.value = this.emptyValue();
-    this.error = '';
+    this.error = "";
   }
 }

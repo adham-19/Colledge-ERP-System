@@ -4,6 +4,7 @@ import { AdminService } from "../../core/services/admin.service";
 import { AuthService } from "../../core/services/auth.service";
 import { Department } from "../../core/models/admin.model";
 import { fileToBase64 } from "../../core/utils/file-to-base64";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
   selector: "app-admin-profile-update",
@@ -29,6 +30,7 @@ export class ProfileUpdateComponent implements OnInit {
     private adminService: AdminService,
     private authService: AuthService,
     private router: Router,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +47,10 @@ export class ProfileUpdateComponent implements OnInit {
   submit(): void {
     const { name, dob, department, contactNumber, avatar } = this.value;
     if (!name && !dob && !department && !contactNumber && !avatar) {
-      alert("Enter atleast one value");
+      this.notificationService.warning(
+        "Required Data",
+        "Enter at least one value",
+      );
       return;
     }
 

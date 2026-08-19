@@ -1,34 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../core/services/admin.service';
-import { Department } from '../../core/models/admin.model';
-import { fileToBase64 } from '../../core/utils/file-to-base64';
+import { Component, OnInit } from "@angular/core";
+import { AdminService } from "../../core/services/admin.service";
+import { Department } from "../../core/models/admin.model";
+import { fileToBase64 } from "../../core/utils/file-to-base64";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
-  selector: 'app-add-admin',
-  templateUrl: './add-admin.component.html',
-  styleUrls: ['./add-admin.component.css'],
+  selector: "app-add-admin",
+  templateUrl: "./add-admin.component.html",
+  styleUrls: ["./add-admin.component.css"],
 })
 export class AddAdminComponent implements OnInit {
   departments: Department[] = [];
   loading = false;
-  error = '';
+  error = "";
 
   value: any = this.emptyValue();
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
-    this.adminService.getAllDepartment().subscribe((depts) => (this.departments = depts));
+    this.adminService
+      .getAllDepartment()
+      .subscribe((depts) => (this.departments = depts));
   }
 
   private emptyValue() {
     return {
-      name: '',
-      dob: '',
-      email: '',
-      department: '',
-      contactNumber: '',
-      avatar: '',
+      name: "",
+      dob: "",
+      email: "",
+      department: "",
+      contactNumber: "",
+      avatar: "",
       joiningYear: new Date().getFullYear().toString(),
     };
   }
@@ -40,22 +46,28 @@ export class AddAdminComponent implements OnInit {
 
   submit(): void {
     this.loading = true;
-    this.error = '';
+    this.error = "";
     this.adminService.addAdmin(this.value).subscribe({
       next: () => {
         this.loading = false;
-        alert('Admin Added Successfully');
+        this.notificationService.success(
+          "Admin Added",
+          "The Admin was added successfully.",
+        );
         this.clear();
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.emailError || err.error?.backendError || 'Something went wrong';
+        this.error =
+          err.error?.emailError ||
+          err.error?.backendError ||
+          "Something went wrong";
       },
     });
   }
 
   clear(): void {
     this.value = this.emptyValue();
-    this.error = '';
+    this.error = "";
   }
 }

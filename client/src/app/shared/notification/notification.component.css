@@ -1,0 +1,213 @@
+.notification-container {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  z-index: 99999;
+
+  pointer-events: none;
+}
+
+.notification {
+  display: flex;
+
+  gap: 14px;
+
+  padding: 18px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.15);
+
+  animation: slideIn 0.35s ease-out;
+
+  pointer-events: auto;
+}
+
+/* ICON */
+
+.notification-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+/* SUCCESS */
+
+.notification-success .notification-icon {
+  background: #ecfdf5;
+  color: #16a34a;
+}
+
+/* ERROR */
+
+.notification-error .notification-icon {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* WARNING */
+
+.notification-warning .notification-icon {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+/* INFO */
+
+.notification-info .notification-icon {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* TEST */
+
+.notification-test .notification-icon {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* CONTENT */
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* HEADER */
+
+.notification-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 6px;
+}
+
+.notification-header strong {
+  font-size: 15px;
+  color: #111827;
+}
+
+/* CLOSE */
+
+.close-button {
+  border: none;
+  background: transparent;
+
+  font-size: 22px;
+
+  color: #9ca3af;
+
+  cursor: pointer;
+
+  line-height: 1;
+
+  padding: 0 0 0 8px;
+}
+
+.close-button:hover {
+  color: #111827;
+}
+
+/* MESSAGE */
+
+.notification-message {
+  margin: 0;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  color: #6b7280;
+}
+
+/* TEST */
+
+.subject-code {
+  font-size: 12px;
+
+  font-weight: 600;
+
+  color: #2563eb;
+
+  margin-bottom: 3px;
+}
+
+.test-name {
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #374151;
+
+  margin-bottom: 10px;
+}
+
+.test-info {
+  display: flex;
+
+  gap: 12px;
+
+  font-size: 12px;
+
+  color: #6b7280;
+}
+
+/* ANIMATION */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .notification-container {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+
+    width: auto;
+  }
+
+  .notification {
+    padding: 15px;
+  }
+}

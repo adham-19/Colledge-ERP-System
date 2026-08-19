@@ -1,37 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../core/services/admin.service';
-import { Department } from '../../core/models/admin.model';
-import { EntityColumn } from '../shared-ui/entity-table/entity-table.component';
+import { Component, OnInit } from "@angular/core";
+import { AdminService } from "../../core/services/admin.service";
+import { Department } from "../../core/models/admin.model";
+import { EntityColumn } from "../shared-ui/entity-table/entity-table.component";
+import { NotificationService } from "../../core/services/notification.service";
 
 @Component({
-  selector: 'app-delete-faculty',
-  templateUrl: './delete-faculty.component.html',
-  styleUrls: ['./delete-faculty.component.css'],
+  selector: "app-delete-faculty",
+  templateUrl: "./delete-faculty.component.html",
+  styleUrls: ["./delete-faculty.component.css"],
 })
 export class DeleteFacultyComponent implements OnInit {
   departments: Department[] = [];
-  department = '';
+  department = "";
   results: any[] = [];
   searched = false;
   loading = false;
-  error = '';
+  error = "";
 
   columns: EntityColumn[] = [
-    { key: 'name', label: 'Name' },
-    { key: 'designation', label: 'Designation' },
-    { key: 'username', label: 'Username' },
-    { key: 'email', label: 'Email' },
+    { key: "name", label: "Name" },
+    { key: "designation", label: "Designation" },
+    { key: "username", label: "Username" },
+    { key: "email", label: "Email" },
   ];
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
-    this.adminService.getAllDepartment().subscribe((depts) => (this.departments = depts));
+    this.adminService
+      .getAllDepartment()
+      .subscribe((depts) => (this.departments = depts));
   }
 
   search(): void {
     this.loading = true;
-    this.error = '';
+    this.error = "";
     this.searched = true;
     this.adminService.getFaculty({ department: this.department }).subscribe({
       next: (res) => {
@@ -41,7 +47,10 @@ export class DeleteFacultyComponent implements OnInit {
       error: (err) => {
         this.results = [];
         this.loading = false;
-        this.error = err.error?.noFacultyError || err.error?.backendError || 'Something went wrong';
+        this.error =
+          err.error?.noFacultyError ||
+          err.error?.backendError ||
+          "Something went wrong";
       },
     });
   }
@@ -51,12 +60,15 @@ export class DeleteFacultyComponent implements OnInit {
     this.loading = true;
     this.adminService.deleteFaculty(ids).subscribe({
       next: () => {
-        alert('Faculty Deleted');
+        this.notificationService.success(
+          "Faculty Deleted",
+          "The faculty was deleted successfully.",
+        );
         this.search();
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.backendError || 'Something went wrong';
+        this.error = err.error?.backendError || "Something went wrong";
       },
     });
   }

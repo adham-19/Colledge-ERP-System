@@ -6,6 +6,10 @@ import Marks from "../models/marks.js";
 import Attendence from "../models/attendance.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import {
+  generateRefreshToken,
+  generateAccessToken,
+} from "../utils/generateTokens.js";
 
 export const facultyLogin = async (req, res) => {
   const { username, password } = req.body;
