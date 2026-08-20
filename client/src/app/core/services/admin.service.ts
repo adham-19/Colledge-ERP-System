@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { catchError, of } from 'rxjs';
-import { Department, Notice, AdminProfileUpdate, UpdatePasswordPayload } from '../models/admin.model';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { catchError, of } from "rxjs";
+import {
+  Department,
+  Notice,
+  AdminProfileUpdate,
+  UpdatePasswordPayload,
+} from "../models/admin.model";
 
 const BASE = `${environment.apiUrl}/admin`;
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AdminService {
   constructor(private http: HttpClient) {}
 
@@ -32,19 +37,22 @@ export class AdminService {
     return this.http.get<any[]>(`${BASE}/getallsubject`);
   }
 
-   /* getNotice(): Observable<{ result: Notice[] }> {
+  /* getNotice(): Observable<{ result: Notice[] }> {
     return this.http.post<{ result: Notice[] }>(`${BASE}/getnotice`, {});
-  } */ 
+  } */
 
-  getNotice(){
-  return this.http.get<{result: Notice[]}>(`${BASE}/getnotice`, {})
-  .pipe(
-    catchError(() => of({result: []}))
-  );
-}
+  getNotice() {
+    return this.http
+      .get<{ result: Notice[] }>(`${BASE}/getnotice`, {})
+      .pipe(catchError(() => of({ result: [] })));
+  }
 
   createNotice(notice: Notice): Observable<any> {
     return this.http.post(`${BASE}/createnotice`, notice);
+  }
+
+  deleteNotice(noticeId: string) {
+    return this.http.delete(`${BASE}/deletenotice/${noticeId}`);
   }
 
   // === Profile ===
@@ -96,7 +104,10 @@ export class AdminService {
     return this.http.post(`${BASE}/addstudent`, payload);
   }
 
-  getStudent(payload: { department: string; year: string }): Observable<{ result: any[] }> {
+  getStudent(payload: {
+    department: string;
+    year: string;
+  }): Observable<{ result: any[] }> {
     return this.http.post<{ result: any[] }>(`${BASE}/getstudent`, payload);
   }
 
@@ -109,7 +120,10 @@ export class AdminService {
     return this.http.post(`${BASE}/addsubject`, payload);
   }
 
-  getSubject(payload: { department: string; year: string }): Observable<{ result: any[] }> {
+  getSubject(payload: {
+    department: string;
+    year: string;
+  }): Observable<{ result: any[] }> {
     return this.http.post<{ result: any[] }>(`${BASE}/getsubject`, payload);
   }
 
@@ -117,4 +131,3 @@ export class AdminService {
     return this.http.post(`${BASE}/deletesubject`, ids);
   }
 }
-

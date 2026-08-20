@@ -237,6 +237,29 @@ export const createNotice = async (req, res) => {
   }
 };
 
+export const deleteNotice = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const notice = await Notice.findByIdAndDelete(id);
+
+    if (!notice) {
+      return res.status(404).json({
+        message: "Notice not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Notice deleted successfully",
+    });
+  } catch (error) {
+
+    return res.status(500).json({
+      message: "Failed to delete notice",
+    });
+  }
+};
+
 export const addDepartment = async (req, res) => {
   try {
     const errors = { departmentError: String };

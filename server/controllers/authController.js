@@ -4,7 +4,7 @@ import Admin from "../models/admin.js";
 import Student from "../models/student.js";
 import Faculty from "../models/faculty.js";
 import { sendResetEmail } from "../services/emailService.js";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { generateAccessToken } from "../utils/generateTokens.js";
 
 const models = {
@@ -58,15 +58,13 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const resetURL =
-      `${process.env.FRONTEND_URL}/reset-password/${resetToken}/${role}`;
+    const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}/${role}`;
 
     await sendResetEmail(user.email, resetURL);
 
     return res.status(200).json({
       message: "Password reset email sent",
     });
-
   } catch (error) {
     console.error(error);
 
@@ -96,10 +94,7 @@ export const resetPassword = async (req, res) => {
     }
 
     // Hash the token received from the URL
-    const hashedToken = crypto
-      .createHash("sha256")
-      .update(token)
-      .digest("hex");
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
     const user = await UserModel.findOne({
       resetPasswordToken: hashedToken,
@@ -128,7 +123,6 @@ export const resetPassword = async (req, res) => {
     return res.status(200).json({
       message: "Password reset successfully",
     });
-
   } catch (error) {
     console.error(error);
 
@@ -138,28 +132,18 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-
 export const refreshAccessToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
 
-    console.log("REFRESH TOKEN:", refreshToken);
-
     if (!refreshToken) {
-      console.log("NO REFRESH TOKEN COOKIE");
-
       return res.status(401).json({
         message: "Refresh token not found",
         code: "REFRESH_TOKEN_MISSING",
       });
     }
 
-    const decoded = jwt.verify(
-      refreshToken,
-      process.env.REFRESH_SECRETKEY
-    );
-
-    console.log("REFRESH TOKEN VALID:", decoded);
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRETKEY);
 
     const accessToken = generateAccessToken({
       id: decoded.id,
@@ -170,10 +154,7 @@ export const refreshAccessToken = async (req, res) => {
     return res.status(200).json({
       accessToken,
     });
-
   } catch (error) {
-    console.log("REFRESH ERROR:", error);
-
     return res.status(401).json({
       message: "Invalid or expired refresh token",
       code: "REFRESH_TOKEN_INVALID",

@@ -1,4 +1,4 @@
-@import '../shared/admin.css';
+@import "../shared/admin.css";
 
 .stat-row {
   display: grid;
@@ -175,6 +175,7 @@
 }
 
 .notice-row__content {
+  flex: 1;
   font-size: 0.82rem;
   opacity: 0.75;
   white-space: nowrap;
@@ -206,4 +207,30 @@
   color: var(--ink-900);
   max-height: 9rem;
   overflow-y: auto;
+}
+
+.notice-delete {
+  margin-left: auto;
+
+  border: none;
+  background: transparent;
+
+  color: #9ca3af;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  padding: 6px;
+
+  border-radius: 6px;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.notice-delete:hover {
+  color: #dc2626;
+  background: #fef2f2;
 }

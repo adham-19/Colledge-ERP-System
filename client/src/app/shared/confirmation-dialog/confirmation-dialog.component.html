@@ -1,0 +1,33 @@
+<div class="confirmation-overlay">
+  <div class="confirmation-dialog">
+    <div class="confirmation-icon" [class.danger]="danger">
+      <i
+        class="bi"
+        [ngClass]="danger ? 'bi-exclamation-triangle' : 'bi-question-circle'"
+      ></i>
+    </div>
+
+    <h2>
+      {{ title }}
+    </h2>
+
+    <p>
+      {{ message }}
+    </p>
+
+    <div class="confirmation-actions">
+      <button type="button" class="cancel-button" (click)="cancel()">
+        {{ cancelText }}
+      </button>
+
+      <button
+        type="button"
+        class="confirm-button"
+        [class.danger-button]="danger"
+        (click)="confirm()"
+      >
+        {{ confirmText }}
+      </button>
+    </div>
+  </div>
+</div>

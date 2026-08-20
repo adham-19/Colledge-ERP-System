@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
-import { AdminService } from '../../core/services/admin.service';
-import { Notice } from '../../core/models/admin.model';
+import { Component, OnInit } from "@angular/core";
+import { forkJoin } from "rxjs";
+import { AdminService } from "../../core/services/admin.service";
+import { Notice } from "../../core/models/admin.model";
+import { NotificationService } from "../../core/services/notification.service";
 
 interface CalendarDay {
   date: number;
   isToday: boolean;
 }
-
 @Component({
-  selector: 'app-admin-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: "app-admin-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
   loading = true;
@@ -20,12 +20,18 @@ export class DashboardComponent implements OnInit {
   notices: Notice[] = [];
   selectedNotice: Notice | null = null;
 
+  showDeleteConfirmation = false;
+  noticeToDelete: any = null;
+
   // ==== تقويم بسيط للشهر الحالي، بديل react-calendar ====
-  monthLabel = '';
-  weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  monthLabel = "";
+  weekDays = ["S", "M", "T", "W", "T", "F", "S"];
   calendarWeeks: (CalendarDay | null)[][] = [];
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
     this.buildCalendar();
@@ -58,7 +64,10 @@ export class DashboardComponent implements OnInit {
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth();
-    this.monthLabel = today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    this.monthLabel = today.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
 
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -84,5 +93,47 @@ export class DashboardComponent implements OnInit {
 
   closeNotice(): void {
     this.selectedNotice = null;
+  }
+
+  deleteNotice(notice: any, event: Event): void {
+    event.stopPropagation();
+
+    this.noticeToDelete = notice;
+    this.showDeleteConfirmation = true;
+  }
+
+  confirmDeleteNotice(): void {
+    if (!this.noticeToDelete?._id) {
+      return;
+    }
+
+    const noticeId = this.noticeToDelete._id;
+
+    this.adminService.deleteNotice(noticeId).subscribe({
+      next: () => {
+        this.notices = this.notices.filter((notice) => notice._id !== noticeId);
+
+        if (this.selectedNotice?._id === noticeId) {
+          this.selectedNotice = null;
+        }
+
+        this.closeDeleteConfirmation();
+        this.notificationService.success(
+          "Notice Deleted",
+          "The notice was deleted successfully.",
+        );
+      },
+
+      error: (err) => {
+        console.error("Failed to delete notice:", err);
+
+        this.closeDeleteConfirmation();
+      },
+    });
+  }
+
+  closeDeleteConfirmation(): void {
+    this.showDeleteConfirmation = false;
+    this.noticeToDelete = null;
   }
 }

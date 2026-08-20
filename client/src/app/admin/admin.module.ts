@@ -25,6 +25,7 @@ import { AddSubjectComponent } from './add-subject/add-subject.component';
 import { DeleteSubjectComponent } from './delete-subject/delete-subject.component';
 import { OurSubjectComponent } from './our-subject/our-subject.component';
 import { EntityTableComponent } from './shared-ui/entity-table/entity-table.component';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { EntityTableComponent } from './shared-ui/entity-table/entity-table.comp
     DeleteSubjectComponent,
     OurSubjectComponent,
     EntityTableComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule],
   exports: [EntityTableComponent],

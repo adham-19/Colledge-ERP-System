@@ -3,7 +3,7 @@
   <span>Dashboard</span>
 </div>
 
-<div *ngIf="loading" class="ledger-status" style="margin-bottom: 1rem;">
+<div *ngIf="loading" class="ledger-status" style="margin-bottom: 1rem">
   <span class="dot"></span> Loading registrar data
 </div>
 
@@ -42,13 +42,16 @@
   <div class="ledger-panel calendar-panel">
     <h3>{{ monthLabel }}</h3>
     <div class="calendar-grid">
-      <span class="calendar-grid__wd" *ngFor="let wd of weekDays">{{ wd }}</span>
+      <span class="calendar-grid__wd" *ngFor="let wd of weekDays">{{
+        wd
+      }}</span>
       <ng-container *ngFor="let week of calendarWeeks">
         <span
           *ngFor="let day of week"
           class="calendar-grid__day"
           [class.is-empty]="!day"
-          [class.is-today]="day?.isToday">
+          [class.is-today]="day?.isToday"
+        >
           {{ day?.date }}
         </span>
       </ng-container>
@@ -57,7 +60,11 @@
 
   <div class="ledger-panel notice-panel">
     <div class="notice-panel__head">
-      <i *ngIf="selectedNotice" class="bi bi-arrow-90deg-left" (click)="closeNotice()"></i>
+      <i
+        *ngIf="selectedNotice"
+        class="bi bi-arrow-90deg-left"
+        (click)="closeNotice()"
+      ></i>
       <h3>Notices</h3>
     </div>
 
@@ -66,10 +73,18 @@
       <div
         class="notice-row"
         *ngFor="let notice of notices"
-        (click)="openNotice(notice)">
+        (click)="openNotice(notice)"
+      >
         <span class="notice-row__dot"></span>
         <span class="notice-row__topic">{{ notice.topic }}</span>
         <span class="notice-row__content">{{ notice.content }}</span>
+        <button
+          type="button"
+          class="notice-delete"
+          (click)="deleteNotice(notice, $event)"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
       </div>
     </div>
 
@@ -83,3 +98,15 @@
     </div>
   </div>
 </div>
+
+<app-confirmation-dialog
+  *ngIf="showDeleteConfirmation"
+  title="Delete Notice"
+  message="Are you sure you want to delete this notice? This action cannot be undone."
+  confirmText="Delete"
+  cancelText="Cancel"
+  [danger]="true"
+  (confirmed)="confirmDeleteNotice()"
+  (cancelled)="closeDeleteConfirmation()"
+>
+</app-confirmation-dialog>
